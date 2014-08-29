@@ -4,12 +4,14 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
-
-### More Information
-
-A place to include any other types of information that you'd like to include about yourself. 
+I'am
+<ul>
+    <li>Web Developer</li>
+    <li>PHP developer, specialized in developing PHP based Backends and API's.</li>
+    <li>A Hardware nerd</li>
+    <li>A (in past) old-school gamer</li>
+</ul>
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[contact@sshilko.com](mailto:contact@sshilko.com)
