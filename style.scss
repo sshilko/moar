@@ -209,7 +209,7 @@ img {
 nav {
   float: right;
   margin-top: 23px; // @TODO: Vertically middle align
-  font-family: $helveticaNeue; 
+  font-family: $mono; 
   font-size: 18px;
   
   @include mobile {
@@ -262,8 +262,8 @@ nav {
   }
 
   .read-more {
-    text-transform: uppercase;
     font-size: 15px;
+    font-family: $mono; 
   }
 }
 
