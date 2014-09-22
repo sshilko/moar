@@ -64,6 +64,7 @@ The goal is to
 3. have a fallback "to inline" solution coz [Murphy's laws](http://www.murphys-laws.com/murphy/murphy-laws.html)
 4. solution needs to be simplest, flexible, easy to maintain and easy to deploy.
 
+
 Unless u have an app compatible with [reachphp](http://reactphp.org/) or any other ([rdlowrey/Amp](https://github.com/rdlowrey/Amp)) non-blocking/multi-threaded/asynchronous php web server your code is executed by web server via SAPI/CGI (i.e. php-fpm or apache), which means php cant keep up the connection to apple server open between the requests, even the code itself can be cached with opCache, the execution environment is fresh for each launch.
 
 One can argue about [pfsockopen](http://php.net/manual/en/function.pfsockopen.php) that `Open persistent Internet or Unix domain socket connection` but from my experience i would NOT recommend any production code to rely on that at all, personally i tried updating ApnsPHP code to use that, but nothing good came out.
@@ -83,15 +84,12 @@ I had choosen [beanstalkd](http://kr.github.io/beanstalkd/) tho i previously wor
 * [protocol](https://raw.githubusercontent.com/kr/beanstalkd/master/doc/protocol.txt) itself is human readable and easy to use
 * library [davidpersson/beanstalk](https://github.com/davidpersson/beanstalk) is small abd ready to go
 
-Ubuntu installation is something like:
+*Ubuntu* installation is something like:
 `apt-get install -y beanstalkd`
+And then check trhu `/etc/default/beanstalkd`.
 
-@todo configuration per-server/centralized
+Once we have a messaging queue daemon, next we can start using the queue via [BackQ](https://github.com/sshilko/backq/blob/master/Publisher/Apnsd.php) library
 
-Once we have a messaging queue daemon with library in place, next we need
-
-1. publish (producer)
-2. subscribe (worker)
-
-
+1. publish (producer) [source](https://github.com/sshilko/backq/blob/master/Publisher/Apnsd.php)
+2. subscribe (worker) [source](https://github.com/sshilko/backq/blob/master/Worker/Apnsd.php)
 
