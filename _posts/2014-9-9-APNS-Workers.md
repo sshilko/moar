@@ -88,7 +88,7 @@ I had choosen [beanstalkd](http://kr.github.io/beanstalkd/) tho i previously wor
 `apt-get install -y beanstalkd`
 And then check trhu `/etc/default/beanstalkd`.
 
-Once we have a messaging queue daemon, next we can start using the queue via [BackQ](https://github.com/sshilko/backq/blob/master/Publisher/Apnsd.php) library
+Once we have a messaging queue daemon, next we can start using the queue via [BackQ](https://github.com/sshilko/backq/) library
 
 1. publish (producer) [source](https://github.com/sshilko/backq/blob/master/Publisher/Apnsd.php)
 2. subscribe (worker) [source](https://github.com/sshilko/backq/blob/master/Worker/Apnsd.php)
