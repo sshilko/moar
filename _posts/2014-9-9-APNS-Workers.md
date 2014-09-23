@@ -1,6 +1,6 @@
 ---
 layout: post
-title: PHP Workers for sending Apple push notifications
+title: PHP Workers for sending Apple push notifications [BackQ library]
 ---
 
 #### Introduction
@@ -69,27 +69,129 @@ Unless u have an app compatible with [reachphp](http://reactphp.org/) or any oth
 
 One can argue about [pfsockopen](http://php.net/manual/en/function.pfsockopen.php) that `Open persistent Internet or Unix domain socket connection` but from my experience i would NOT recommend any production code to rely on that at all, personally i tried updating ApnsPHP code to use that, but nothing good came out.
 
-The solution is to use an [Messaging queue](http://en.wikipedia.org/wiki/Message_queue), according to 4 goal we need only basic messaging
-functionality:
+The solution is to use an [Messaging queue](http://en.wikipedia.org/wiki/Message_queue), according to goals above we require only basic messaging functionality:
 
 * check if queue is working and there is worker ready to accept a job (for a fallback solution)
 * push messages
 * get messages
 * return (re-queue) messages in case worker goes south
 
-I had choosen [beanstalkd](http://kr.github.io/beanstalkd/) tho i previously worked with [Gearman](http://gearman.org/) which is indeed a good solution, it seend abit too much for a simple task we do, additionnaly
+I had choosen [beanstalkd](http://kr.github.io/beanstalkd/) over [Gearman](http://gearman.org/) which is also a good solution:
 
 * beanstalkd is easy to deploy (inc. with [puppet](http://puppetlabs.com/)
 * small, easy to configure, and production ready.
 * [protocol](https://raw.githubusercontent.com/kr/beanstalkd/master/doc/protocol.txt) itself is human readable and easy to use
 * library [davidpersson/beanstalk](https://github.com/davidpersson/beanstalk) is small abd ready to go
+* is already included as standard tool in [puphpet.com](https://puphpet.com/#additional-tools) puppet script generator
 
 *Ubuntu* installation is something like:
 `apt-get install -y beanstalkd`
-And then check trhu `/etc/default/beanstalkd`.
+with configuration  at `/etc/default/beanstalkd`.
 
-Once we have a messaging queue daemon, next we can start using the queue via [BackQ](https://github.com/sshilko/backq/) library
+Once we have a messaging queue daemon, next we can start using the queue via [BackQ](https://github.com/sshilko/backq/) library.
 
-1. publish (producer) [source](https://github.com/sshilko/backq/blob/master/Publisher/Apnsd.php)
-2. subscribe (worker) [source](https://github.com/sshilko/backq/blob/master/Worker/Apnsd.php)
+Library consists of 
 
+1. publisher  (producer) [source](https://github.com/sshilko/backq/tree/master/Publisher)
+2. subscriber (worker)   [source](https://github.com/sshilko/backq/tree/master/Worker)
+3. adapter               [source](https://github.com/sshilko/backq/tree/master/Adapter)
+
+Examples and usage described [here](https://github.com/sshilko/backq#usage), existing [APNS worker](https://github.com/sshilko/backq/blob/master/Worker/Apnsd.php) uses ApnsPHP library and dispatches messages w/o batching.
+Listens for incoming messages on "apnsd" Beanstalkd queue, and [publisher](https://github.com/sshilko/backq/blob/master/Publisher/Apnsd.php) pushes messages to the same "apnsd" queue.
+
+Example **worker**
+
+{% highlight php %}
+<?php
+$log = 'somepath/log.txt';
+
+$ca  = 'somepath/entrust_2048_ca.cer';
+
+$pem = 'somepath/apnscertificate.pem';
+
+$env = \ApnsPHP_Abstract::ENVIRONMENT_SANDBOX;
+
+$worker = new \BackQ\Worker\Apnsd(new \BackQ\Adapter\Beanstalk);
+
+$worker->setLogger(new \BackQ\Logger($log));
+$worker->setRootCertificationAuthority($ca);
+$worker->setCertificate($pem);
+$worker->setEnvironment($env);
+$worker->toggleDebug(true);
+
+$worker->run();
+
+{% endhighlight %}
+
+Example **publisher**
+
+{% highlight php %}
+<?php
+//array of [ApnsPHP_Message_Custom or ApnsPHP_Message]
+$messages  = array();
+$publisher = \BackQ\Publisher\Apnsd::getInstance(new \BackQ\Adapter\Beanstalk);
+
+//try connecting to Beanstalkd and ensure there are workers waiting for a job
+if ($publisher->start() && $publisher->hasWorkers()) {
+    for ($i=0; $i < count($messages); $i++) {
+        //allow maximum 3 seconds for worker to give a response on job status, see Beanstalkd protocol for details
+        $ttr = 3;
+        $result = $publisher->publish($messages[$i], array(\BackQ\Adapter\Beanstalk::PARAM_JOBTTR => $ttr));
+        if ($result > 0) {
+            //successfull
+        }
+    }
+}
+
+{% endhighlight %}
+
+#### Maintenance
+
+To look over running daemon/process there are [number of tools](http://blog.crocodoc.com/post/48703468992/process-managers-the-good-the-bad-and-the-ugly) available as
+
+* [Upstart](http://upstart.ubuntu.com/)
+* [Monit](http://mmonit.com/monit/)
+* [Supervisor](http://supervisord.org/) [installation](http://supervisord.org/installing.html)
+
+Monitoring app will look over daemonized scripts and optionally restart them immediattely after exit, this will keep the workers running.  
+
+BackQ worker is implemented in a way it will quit if
+
+1. encounter internal error (socket connection died)
+2. apple server decides to reboot (got code 10 from apple)
+3. apple server sent UNKNOWN error code 255 or code 1 (processing error)
+
+Configuring supervisor either via [puppet supervisord](https://github.com/puphpet/puppet-supervisord) 
+
+{% highlight bash %}
+supervisord::program { 'apnsd':
+    command     => "php /path/to/worker/apnsd.php",
+    autostart   => true,
+    autorestart => true
+}
+{% endhighlight %}
+
+or manually creating configuration files, on Ubuntu by creating new file `/etc/supervisor.d/program_apnsd.conf` (name does no matter)
+
+{% highlight bash %}
+[program:apnsd]
+    command=php /path/to/worker/apnsd.php
+    autostart=true
+    autorestart=true
+    user=ubuntu
+    stdout_logfile=/var/log/supervisor/program_apnsd.log
+    stderr_logfile=/var/log/supervisor/program_apnsd.error
+{% endhighlight %}
+
+Starting supervisor will trigger starting "apnsd" worker because `autostart=true`  
+ and worker will be restarted immediately upon termination because `autorestart=true`.
+
+#### Summary
+
+ By combining
+
+ * Beanstalk queue
+ * Supervisor monitoring
+ * Existing popular PHP libraries w/o native daemon/queue support
+
+ and writing simple worker/publisher one can reliably with predictible performance/delay serve push notifications.
