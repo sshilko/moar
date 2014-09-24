@@ -37,7 +37,8 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
   
   line-height: 1.7;
-  margin: 1em 0 15px;
+  //margin: 1em 0 15px;
+  margin: 0 0 0px;
   padding: 0;
 
   @include mobile {
@@ -189,7 +190,7 @@ img {
 .site-name {
   margin: 0;
   color: $darkGray;
-  cursor: pointer;
+  //cursor: pointer;
   font-family: $helveticaNeue; 
   font-weight: 300;
   font-size: 28px;
