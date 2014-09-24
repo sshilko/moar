@@ -117,7 +117,7 @@ $worker->setLogger(new \BackQ\Logger($log));
 $worker->setRootCertificationAuthority($ca);
 $worker->setCertificate($pem);
 $worker->setEnvironment($env);
-$worker->toggleDebug(true);
+//$worker->toggleDebug(true);
 
 $worker->run();
 
@@ -185,6 +185,10 @@ or manually creating configuration files, on Ubuntu by creating new file `/etc/s
 
 Starting supervisor will trigger starting "apnsd" worker because `autostart=true`  
  and worker will be restarted immediately upon termination because `autorestart=true`.
+
+Keep in mind that **if supervisord process crashes** all the workers go down, thats edge-case scenario but never know,  
+that why u should implement fallback solution and check for `hasWorkers()` with publisher. 
+I personnaly just dispatch notifications inline with the same ApnsPHP library as a fallback, since the library is already there.
 
 #### Summary
 
