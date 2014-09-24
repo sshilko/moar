@@ -92,12 +92,12 @@ Once we have a messaging queue daemon, next we can start using the queue via [Ba
 
 Library consists of 
 
-1. publisher  (producer) [source](https://github.com/sshilko/backq/tree/master/Publisher)
-2. subscriber (worker)   [source](https://github.com/sshilko/backq/tree/master/Worker)
-3. adapter               [source](https://github.com/sshilko/backq/tree/master/Adapter)
+1. publisher  (producer) [source](https://github.com/sshilko/backq/tree/master/src/Publisher)
+2. subscriber (worker)   [source](https://github.com/sshilko/backq/tree/master/src/Worker)
+3. adapter               [source](https://github.com/sshilko/backq/tree/master/src/Adapter)
 
-Examples and usage described [here](https://github.com/sshilko/backq#usage), existing [APNS worker](https://github.com/sshilko/backq/blob/master/Worker/Apnsd.php) uses ApnsPHP library and dispatches messages w/o batching.
-Listens for incoming messages on "apnsd" Beanstalkd queue, and [publisher](https://github.com/sshilko/backq/blob/master/Publisher/Apnsd.php) pushes messages to the same "apnsd" queue.
+Examples and usage described [here](https://github.com/sshilko/backq#usage), existing [APNS worker](https://github.com/sshilko/backq/blob/master/src/Worker/Apnsd.php) uses ApnsPHP library and dispatches messages w/o batching.
+Listens for incoming messages on "apnsd" Beanstalkd queue, and [publisher](https://github.com/sshilko/backq/blob/master/src/Publisher/Apnsd.php) pushes messages to the same "apnsd" queue.
 
 Example **worker**
 

@@ -4,4 +4,4 @@
 #/bin/bash --login
 #rvm use default
 
-sudo jekyll serve -P 80 -H 127.0.0.1 -b "" --config _local.yml
+jekyll build --config _local.yml
