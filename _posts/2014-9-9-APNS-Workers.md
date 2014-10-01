@@ -5,10 +5,7 @@ title: PHP Workers for sending Apple push notifications [BackQ library]
 
 #### Introduction
 
-Push em reliable. Practical production solution to deliver notifications fast and efficient covering issues with existing open source solutions.
-
-
-The raw wire API is described at official Apple [iOS Developer Library](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/CommunicatingWIthAPS.html).
+Push em reliable. Practical production solution to dispatch notifications fast and efficient with open source solutions. The raw APNS wire API is described at official Apple [iOS Developer Library](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/CommunicatingWIthAPS.html).
 
 Assumed basic experience with APNS (Apple push notifications service).
 
