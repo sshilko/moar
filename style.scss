@@ -31,7 +31,10 @@ body {
   font-size: 15px;
 }
 
-@media screen and (max-width: 768px) {
+//devices with screen width 1280px or less
+//http://www.quirksmode.org/mobile/viewports.html
+//sets auto margin for mobiles
+@media screen and (max-width: 1280px) {
   .container {
     margin: 0 auto;
   }
