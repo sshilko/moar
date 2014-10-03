@@ -31,6 +31,12 @@ body {
   font-size: 15px;
 }
 
+@media screen and (max-width: 768px) {
+  .container {
+    margin: 0 auto;
+  }
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: $helveticaNeue;
   color: $darkerGray;
