@@ -226,8 +226,10 @@ touch /etc/rabbitmq/rabbitmq.config
             %% {ssl_options, [{cacertfile, "/etc/rabbitmq/ca.crt"},
             %%                {certfile,   "/etc/rabbitmq/server.crt"},
             %%                {keyfile,    "/etc/rabbitmq/server.key"},
-            %%                {verify,     verify_none}, %%verify_none = no exchange takes place from the client to the server
-            %%                {fail_if_no_peer_cert,false} %%prepared to accept clients which don't have a certificate to send us
+            %%                {verify,     verify_none},
+            %% %%verify_none = no exchange takes place from the client to the server
+            %%                {fail_if_no_peer_cert,false}
+            %% %%prepared to accept clients which don't have a certificate to send us
             %% ]}
  ] },
 
@@ -237,8 +239,10 @@ touch /etc/rabbitmq/rabbitmq.config
             %%                      {ssl_opts,    [{cacertfile, "/etc/rabbitmq/ca.crt"},
             %%                                     {certfile,   "/etc/rabbitmq/server.crt"},
             %%                                     {keyfile,    "/etc/rabbitmq/server.key"},
-            %%                                     {verify,     verify_none}, %%verify_none = no exchange takes place from the client to the server
-            %%                                     {fail_if_no_peer_cert,false} %%prepared to accept clients which don't have a certificate to send us
+            %%                                     {verify,     verify_none},
+            %% %%verify_none = no exchange takes place from the client to the server
+            %%                                     {fail_if_no_peer_cert,false}
+            %% %%prepared to accept clients which don't have a certificate to send us
             %%                                    ]}                             
                                    ]}
  ] },
