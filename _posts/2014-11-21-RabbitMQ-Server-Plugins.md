@@ -5,27 +5,25 @@ title: Building RabbitMQ with plugins on AWS EC2
 
 #### Introduction
 
-Guide on building latest RabbitMQ 3.4.1 on Ubuntu Server 14.01.
+Guide on building latest RabbitMQ 3.4.1 on Ubuntu Server 14.04.
 
 * [RabbitMQ](http://www.rabbitmq.com/getstarted.html) [Message Broker](http://en.wikipedia.org/wiki/Message_broker)
 * Custom plugin build
 * EC2 minimal instance setup for RabbitMQ
 
-Assumed basic experience with AWS EC2, make, Ubuntu distro.
+#### Requirements
 
-Lets install RabbitMQ 3.4.1 on Ubuntu 14.04.01.
+* [AWS](http://aws.amazon.com/) cloud account and basic experience launching [EC2](http://aws.amazon.com/ec2/) instances
+* basics of make, [Ubuntu Linux](http://www.ubuntu.com/server), ssh, [hg](http://mercurial.selenic.com/).
 
-The first step is to find appropriate 14.04 
-[Ubuntu Server Releases](http://uec-images.ubuntu.com/releases/14.04.1/release/)
+#### Installing and configuring RabbitMQ
 
-At the moment that one will work for US East datacenter
+The first step is to find appropriate 14.04 [Ubuntu Server Releases](http://uec-images.ubuntu.com/releases/14.04.1/release/) which at
+the moment is for US EAST (N.Virginia) datacenter:
 
-ami-98aa1cf0
-ubuntu-trusty-14.04-amd64-server-20140927 (ami-98aa1cf0)
+* ubuntu/images/ebs-ssd/ubuntu-trusty-14.04-amd64-server-20140927 - **ami-98aa1cf0** (64 bit)
 
-its m1.small instance with SSD storage type.
-
-Launch the instance and connect via SSH replacing "ip" with instance ip address
+A. Launch the instance and connect via SSH replacing "ip" with instance ip address, default username is "ubuntu"
 
 {% highlight bash %}
 ssh -i key.pem ubuntu@ip
@@ -37,7 +35,7 @@ u should see something like
 Welcome to Ubuntu 14.04.1 LTS (GNU/Linux 3.13.0-36-generic x86_64)
 {% endhighlight %}
 
-First we need to set instance hostname because RabbitMQ stores its state in [Mnesia](http://www.erlang.org/doc/man/mnesia.html) database locally in files and database name is connected to hostname.
+B. Set instance hostname because RabbitMQ stores its state in [Mnesia](http://www.erlang.org/doc/man/mnesia.html) database locally in files and database name is connected to hostname.
 
 {% highlight bash %}
 sudo su
@@ -48,12 +46,13 @@ apt-get update
 reboot
 {% endhighlight %}
 
-After instance reboots ssh to it
-{% highlight bash %}
-ssh -i key.pem ubuntu@ip
-{% endhighlight %}
 
-Default RabbitMQ for Ubuntu Server 12.04 and 14.04 is rabbitmq_server-3.2.4, but current latest-stable is 3.4.1, so lets use latest repo from RabbitMQ team.
+C. Default RabbitMQ for Ubuntu Server 12.04 and 14.04 is [rabbitmq-server-3.2.4](https://launchpad.net/ubuntu/trusty/amd64/rabbitmq-server),
+but its outdated as [latest stable](http://www.rabbitmq.com/news.html#2014-10-29T14:26:55+0000) is [rabbitmq-server-3.4.1](http://www.rabbitmq.com/release-notes/README-3.4.1.txt).
+
+To install latest version use the official repository and generally follow build-server [instructions](http://www.rabbitmq.com/build-server.html).
+
+After instance reboots ssh to it as root again.
 
 {% highlight bash %}
 sudo su
@@ -75,7 +74,7 @@ apt-get install xsltproc -y
 apt-get install python-setuptools -y ; easy_install simplejson;
 {% endhighlight %}
 
-Also two not so obvios requirements if u see errors like:
+D. Additionnal requirements not clearly mentioned by official documentation are [erlang-dev](https://launchpad.net/ubuntu/trusty/+package/erlang-dev), [erlang-src](https://launchpad.net/ubuntu/trusty/+package/erlang-src), [zip](https://launchpad.net/ubuntu/trusty/+package/zip).
 
 {% highlight bash %}
 #rlc -o ebin -I include -Wall -v +debug_info   -DINSTR_MOD=gm -pa ebin src/rabbit_ssl.erl
@@ -107,8 +106,7 @@ apt-get install erlang-dev erlang-src -y
 apt-get install zip -y
 {% endhighlight %}
 
-Relogin as normal user 'ubuntu' (quit sudo) and 
-clone the RabbitMQ public umbrella mercurial repository and switch to stable branch
+E. Relogin as normal user 'ubuntu' (quit sudo) and clone the [RabbitMQ public umbrella mercurial repository](http://hg.rabbitmq.com/rabbitmq-public-umbrella) and switch to stable branch
 
 {% highlight bash %}
 hg clone http://hg.rabbitmq.com/rabbitmq-public-umbrella umbrella
@@ -118,14 +116,24 @@ make co
 make BRANCH=rabbitmq_v3_4_1 up_c
 {% endhighlight %}
 
-At this stage u should have 3.4.1 branch checked out with all dependencies and all build requirements installed
+At this stage u should have 3.4.1 branch checked out with all dependencies and all build requirements installed.
 
+#### Modifying plugin
 
-http://www.rabbitmq.com/blog/2012/09/12/mqtt-adapter/
-Lets make small change to MQTT plugin, for example we dont want our clients to specify LWT, so we just comment it out:
+Example plugin we are going to modify is [MQTT Adapter](http://www.rabbitmq.com/blog/2012/09/12/mqtt-adapter/).
+A powerful adapter enabling [MQTT Protocol](http://mqtt.org/) connectivity wich powers industry leading services already, i.e.
+in [realtime messengers](https://www.facebook.com/notes/facebook-engineering/building-facebook-messenger/10150259350998920) and telemetry apps ([internet of things](http://www.hivemq.com/how-to-get-started-with-mqtt/)).
 
-Last Will and Testament (LWT)
-    Clients can provide a LWT message during connection that will only be published if the client disconnects unexpectedly, e.g. due to a network failure.
+An example modifications to MQTT plugin are:
+
+* disabling the [QoS1 publish & consume](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718101) (at least once delivery) to prevent any state handling by broker (stateless broker) and thus increasing performance
+* disabling the [Last Will and Testament (LWT)](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718031) also to prevent creating any server state or business logic
+
+> Last Will and Testament (LWT):
+Clients can provide a LWT message during connection that will only be published if the client disconnects unexpectedly, e.g. due to a network failure.
+
+Lets make small change to MQTT plugin, disabling the LWT (below are [Erlang](http://www.erlang.org/) sources of MQTT plugin) by just commenting one line and compiling
+
 
 {% highlight bash %}
 cd rabbitmq-mqtt
@@ -144,11 +152,14 @@ vim src/rabbit_mqtt_processor.erl
                                                         connection = Conn,
 
 
-make
 {% endhighlight bash %}
 
 
-to make it easy lets create a symlink to rabbitmq plugins folder in our home folder
+{% highlight bash %}
+make
+{% endhighlight bash %}
+
+after editing, make a symlink to rabbitmq plugins folder in our home folder
 
 {% highlight bash %}
 cd ~; ln -s /usr/lib/rabbitmq/lib/rabbitmq_server-3.4.1/plugins/ .
@@ -165,16 +176,25 @@ total 876
 -rw-rw-r-- 1 ubuntu ubuntu 562928 Nov 21 10:27 rabbit_common-0.0.0.ez
 -rw-rw-r-- 1 ubuntu ubuntu  65559 Nov 21 10:27 rabbitmq_mqtt-0.0.0.ez
 
-sudo su
+# our modified compiled plugin lies in dist folder
 
+#stop the server before making changes to plugin files
+sudo su
 /etc/init.d/rabbitmq-server stop
 
+#overwrite the original plugin with our compiled version
 root@rmq1:/home/ubuntu# cp umbrella/rabbitmq-mqtt/dist/rabbitmq_mqtt-0.0.0.ez plugins/rabbitmq_mqtt-3.4.1.ez
 {% endhighlight bash %}
 
-Now lets properly configure rabbitmq with config that would run on low performance EC2 instance, setting 100mb low disk space limit and allowing to use 85% system ram
+#### RabbitMQ plugins and configuration for low-end EC2 instance
 
-create a file at /etc/rabbitmq/rabbitmq.config
+Now lets properly configure rabbitmq with config that would run on low performance EC2 instance:
+
+* configure 100Mb lower limit on free disk space
+* allow server to use 85% of available system memory
+* disable access logging and optimize network settings
+
+create a file at /etc/rabbitmq/rabbitmq.config with following contents
 
 {% highlight bash %}
 sudo su
@@ -238,11 +258,16 @@ touch /etc/rabbitmq/rabbitmq.config
  ] }
 
 ].
+{% endhighlight bash %}
 
+Enable MQTT and management plugins then restart the server.
+
+{% highlight bash %}
 
 echo '[rabbitmq_management,rabbitmq_mqtt].' >  /etc/rabbitmq/enabled_plugins;
 /etc/init.d/rabbitmq-server start
 
+# check the logs for successful start report
 root@rmq1:/home/ubuntu# tail /var/log/rabbitmq/rabbit\@rmq1.log
 
 =INFO REPORT====
@@ -254,16 +279,22 @@ Server startup complete; 7 plugins started.
  * rabbitmq_management_agent
  * rabbitmq_mqtt
  * amqp_client
+
+# ...
 {% endhighlight bash %}
 
-mqtt plugin successfuly started, also the management plugin started and should be available at localhost port 15672,
-otherwise chec the /var/log/rabbitmq/startup_err for startup error logs
+Our modified MQTT plugin successfuly started together with the [Management Plugin](https://www.rabbitmq.com/management.html) started and should be available at local port 15672.
 
+> otherwise check the /var/log/rabbitmq/startup_err for startup error logs
 
-Next we declared the MQTT plugin bould to HOST="/vhost1" and exchange="exchange1" but we never created those so MQTT connections will not work yet
-first get the rabbitmqadmin
+#### RabbitMQ vhost, exchange, users setup
+
+We declared the MQTT plugin to be bound to to "/vhost1" and exchange="exchange1" but never created them, so MQTT connections will not work.
+To define those entities we need a tool [rabbitmqadmin](https://www.rabbitmq.com/management-cli.html) from the management plugin.
 
 {% highlight bash %}
+
+#first get the rabbitmqadmin
 
 cd ~
 wget http://localhost:15672/cli/rabbitmqadmin
@@ -276,7 +307,7 @@ sudo rabbitmqctl add_vhost vhost1
 #Creating vhost "vhost1" ...
 {% endhighlight bash %}
 
-Also we probably need some basic security adjustments because by default user "guest" is created only:
+Additionnaly put some basic security measures redefining the default "guest" user:
 
 {% highlight bash %}
 sudo rabbitmqctl add_user user1 pass1
@@ -285,12 +316,19 @@ sudo rabbitmqctl add_user user1 pass1
 sudo rabbitmqctl set_permissions -p vhost1 user1 ".*" ".*" ".*"
 #Setting permissions for user "user1" in vhost "vhost1" ...
 
-#Optional to make user an administrator that can access the Management UI
-
+#Optionaly make user1 an administrator that can access the Management UI
+#by setting tags for user "user1" to [administrator] ...
 sudo rabbitmqctl set_user_tags user1 administrator
-#Setting tags for user "user1" to [administrator] ...
 
+#Delete the default user
 sudo rabbitmqctl delete_user guest
-#Deleting user "guest" ...
 
+#Deleting user "guest" ...
+{% endhighlight bash %}
+
+
+#### Finally
+Launch the server with modified MQTT plugin and optimized settings.
+{% highlight bash %}
+/etc/init.d/rabbitmq-server restart
 {% endhighlight bash %}
