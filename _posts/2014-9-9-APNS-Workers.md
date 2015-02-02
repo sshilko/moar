@@ -92,6 +92,7 @@ Library consists of
 1. publisher  (producer) [source](https://github.com/sshilko/backq/tree/master/src/Publisher)
 2. subscriber (worker)   [source](https://github.com/sshilko/backq/tree/master/src/Worker)
 3. adapter               [source](https://github.com/sshilko/backq/tree/master/src/Adapter)
+4. [ApnsPHP adapter](https://github.com/sshilko/backq/blob/master/src/Adapter/ApnsdPush.php), due to [deprecation of SSL by Apple](https://developer.apple.com/news/?id=10222014a) and switching to TLS
 
 Examples and usage described [here](https://github.com/sshilko/backq#usage), existing [APNS worker](https://github.com/sshilko/backq/blob/master/src/Worker/Apnsd.php) uses ApnsPHP library and dispatches messages w/o batching.
 Listens for incoming messages on "apnsd" Beanstalkd queue, and [publisher](https://github.com/sshilko/backq/blob/master/src/Publisher/Apnsd.php) pushes messages to the same "apnsd" queue.
