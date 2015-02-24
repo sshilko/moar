@@ -197,3 +197,42 @@ I personnaly just dispatch notifications inline with the same ApnsPHP library as
  * Existing popular PHP libraries w/o native daemon/queue support
 
  and writing simple worker/publisher one can reliably with predictible performance/delay serve push notifications.
+
+#### Update Jan 2015
+ * As of November 2014 [Apple has removed SSL 3.0 support](https://developer.apple.com/news/?id=10222014a), but [duccio/ApnsPHP](https://github.com/duccio/ApnsPHP) is [not updated](https://github.com/duccio/ApnsPHP/blob/master/ApnsPHP/Push.php#L58) itself
+ * Therefore as-is usage of library is broken atm.,
+   to fix that i added [Adapter/ApnsdPush](https://github.com/sshilko/backq/blob/master/src/Adapter/ApnsdPush.php) wrapping
+   for Push class to use the [TLS](http://en.wikipedia.org/wiki/Transport_Layer_Security) instead of SSL. Please update.
+
+#### Update Feb 2015
+ * Performance bottleneck found in [duccio/ApnsPHP](https://github.com/duccio/ApnsPHP).
+   The [code](https://github.com/duccio/ApnsPHP/blob/master/ApnsPHP/Push.php#L195) responsible
+   for sending stream data relies on [stream_select](http://php.net/stream_select) function which accepts the timeout value set by
+   [setSocketSelectTimeout](https://github.com/sshilko/backq/blob/master/src/Worker/Apnsd.php#L114) that is currently hardcoded to 1 second
+   without an option to modify that value w/o changing BackQ library code. I'am planning to research for better ways to deal with stream data.
+
+   For now single push can take **up to 1 second** (independent whether its successful or not).
+
+{% highlight php %}
+    The tv_sec and tv_usec together form the timeout parameter, tv_sec specifies the number of seconds while tv_usec the
+    number of microseconds.
+    The timeout is an upper bound on the amount of time that stream_select() will wait before it returns.
+    If tv_sec and tv_usec are both set to 0, stream_select() will not wait for data - instead it will return immediately,
+    indicating the current status of the streams.
+
+    If tv_sec is NULL stream_select() can block indefinitely, returning only when an event on one
+    of the watched streams occurs (or if a signal interrupts the system call).
+
+    Warning
+    Using a timeout value of 0 allows you to instantaneously poll the status of the streams, however,
+    it is NOT a good idea to use a 0 timeout
+    value in a loop as it will cause your script to consume too much CPU time.
+
+    It is much better to specify a timeout value of a few seconds, although if you need to be checking
+    and running other code concurrently,
+    using a timeout value of at least 200000 microseconds will help reduce the CPU usage of your script.
+
+    Remember that the timeout value is the maximum time that will elapse;
+    stream_select() will return as soon as the requested streams are ready for use.
+
+{% endhighlight %}
