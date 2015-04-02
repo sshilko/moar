@@ -234,5 +234,9 @@ I personnaly just dispatch notifications inline with the same ApnsPHP library as
 
     Remember that the timeout value is the maximum time that will elapse;
     stream_select() will return as soon as the requested streams are ready for use.
-
 {% endhighlight %}
+
+#### Update Apr 2015
+ * Socket select timeout reduced to 0.5 sec doubling the performance
+ * PHP 5.2.23 & 5.6.7 completely breaks the funtionality, the code [stucks at fread()](https://github.com/duccio/ApnsPHP/issues/84) (for ~60 seconds) while trying to get error from service.
+  
