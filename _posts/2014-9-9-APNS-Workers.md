@@ -243,3 +243,6 @@ I personnaly just dispatch notifications inline with the same ApnsPHP library as
 #### Update 2 Apr 2015
  * PHP 5.2.23 & 5.6.7 are using stream_socket_client.timeout instead of stream_set_timeout, added option to set custom connect timeouts to be able to make a workarounds
 
+
+#### Update 3 Jun 2015
+ * PHP [5.2.25](http://php.net/ChangeLog-5.php#5.5.25) Fixed bug #69402 (Reading empty SSL stream hangs until timeout).
