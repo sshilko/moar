@@ -176,6 +176,17 @@ Replacing the update+upsert option with write-safe insert, and the long-running 
 
 Nothing changed much on stats, but newrelic no longer traces the long-running 2-6 second fetch queries from MongoDB.
 
+Looking at Opcounters, the overall number of "Commands" is the same, but "Query" and "Insert" numbers are lower.
+
+*Just a guess but maybe single "upsert" is translated/executed as 2 operations internally*
+
+1. Query if key exists
+2. If exists, update, else insert.
+
+and thats why replacing it with *more simple* insert reduced the locks.
+
+> the query/fetch still sometimes takes up to 800ms, but much less.
+
 ![MongoCursor](/images/mongo2.jpg)
 
 
