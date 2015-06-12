@@ -200,4 +200,8 @@ and thats why replacing it with *more simple* insert reduced the locks.
   of data, is not in any scenario a silver bullet solution, and would probably *best fit is where u dont need write-safe* operations like
   some logs collecting or IoT/Sensors, non-critical solution for distributing or sharing content
   that is durably stored elsewhere, or other processed data that can be easily reproduced.
-* Continuing using the MongoDB and will surely use the wiredTiger soon
+
+> When inserts, updates and deletes have a weak write concern, write operations return quickly. In some failure cases, write operations issued with weak write concerns may not persist. [MongoDB: Write Concern](http://docs.mongodb.org/v2.6/core/write-concern/)
+
+
+* I'am continuing using/evaluating the MongoDB and will surely try out the wiredTiger engine soon
