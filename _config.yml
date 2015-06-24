@@ -37,7 +37,7 @@ google_analytics: "UA-33377762-2"
 
 # Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
 # Used for Sitemap.xml and your RSS feed
-url: http://moar.sshilko.com
+url: 
 #url: http://moar
 
 homeurl: "http://sshilko.com"
