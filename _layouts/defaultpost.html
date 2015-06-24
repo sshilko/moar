@@ -17,7 +17,6 @@
 
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=Sergey Shilko" async="async"></script>
   </head>
 
   <body>
@@ -25,8 +24,7 @@
       <div class="container">
         <div class="masthead clearfix" style="padding-bottom:0">          
           <div style="float:left;margin-bottom:0;margin-top:50px">
-            <a style="margin-left:0;font-size:14px;font-family:monospace" href="{{ site.baseurl }}/">go back</a>            
-            <div class="addthis_native_toolbox"></div>
+            <a style="margin-left:0;font-size:14px;font-family:monospace" href="{{ site.baseurl }}/">go back</a>
             <br/>
           </div>
         </div>
@@ -34,9 +32,16 @@
     </div>
 
     <div id="main" role="main" class="container">
+        <div>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-via="sshilko">Tweet</a>
+        </div>
       {{ content }}
     </div>
 
     {% include analytics.html %}
+
+    <!-- twitter sdk -->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+   
   </body>
 </html>
