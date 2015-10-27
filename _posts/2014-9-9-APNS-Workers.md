@@ -133,8 +133,7 @@ $publisher = \BackQ\Publisher\Apnsd::getInstance(new \BackQ\Adapter\Beanstalk);
 if ($publisher->start() && $publisher->hasWorkers()) {
     for ($i=0; $i < count($messages); $i++) {
         //allow maximum 3 seconds for worker to give a response on job status, see Beanstalkd protocol for details
-        $ttr = 3;
-        $result = $publisher->publish($messages[$i], array(\BackQ\Adapter\Beanstalk::PARAM_JOBTTR => $ttr));
+        $result = $publisher->publish($messages[$i], array(\BackQ\Adapter\Beanstalk::PARAM_JOBTTR => 3));
         if ($result > 0) {
             //successfull
         }
@@ -243,6 +242,14 @@ I personnaly just dispatch notifications inline with the same ApnsPHP library as
 #### Update 2 Apr 2015
  * PHP 5.2.23 & 5.6.7 are using stream_socket_client.timeout instead of stream_set_timeout, added option to set custom connect timeouts to be able to make a workarounds
 
-
 #### Update 3 Jun 2015
  * PHP [5.2.25](http://php.net/ChangeLog-5.php#5.5.25) Fixed bug #69402 (Reading empty SSL stream hangs until timeout).
+
+#### Update 27 Oct 2015
+ * Added [symfony/process](http://symfony.com/doc/current/components/process.html) handler to process any kinds of background processes
+ * Fixed publisher arguments passing (delay & ttr)
+ * Fixed multiple publisher instances (Process & APNS publishers at the same time)
+ * Improved zombie processes collector for symfony/process (use `pstree` to look out for zombies); leaving 1 zombie at a time per Process worker is by-design.
+ * Reworked [ApnsdPush](https://github.com/sshilko/backq/blob/726c67bf9b8f99a4a8bc28606a6034de974ccbc0/src/Adapter/ApnsdPush.php) Adapter to separate socket layer 
+   into separate class (StreamIO & SocketIO); Only StreamIO currently supported, SocketIO support (with SO_KEEPALIVE) is planned;
+ * Better error reporting for socket layer issues (fwrite(): SSL: Connection timed out ...), more fixes coming soon
