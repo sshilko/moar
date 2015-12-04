@@ -253,3 +253,7 @@ I personnaly just dispatch notifications inline with the same ApnsPHP library as
  * Reworked [ApnsdPush](https://github.com/sshilko/backq/blob/726c67bf9b8f99a4a8bc28606a6034de974ccbc0/src/Adapter/ApnsdPush.php) Adapter to separate socket layer 
    into separate class (StreamIO & SocketIO); Only StreamIO currently supported, SocketIO support (with SO_KEEPALIVE) is planned;
  * Better error reporting for socket layer issues (fwrite(): SSL: Connection timed out ...), more fixes coming soon
+
+#### Update 04 Dec 2015
+   * Added [Message\ApnsPHP](https://github.com/sshilko/backq/commit/33d124d16c5eac041d9ed27f84ce89dd8a80fb26) with 2k payload size instead of 256bytes original (iOS8 upgrade)
+
