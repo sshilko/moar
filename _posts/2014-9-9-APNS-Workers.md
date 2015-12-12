@@ -57,8 +57,8 @@ Enough of libraries overview, as none of those except [ApnsPHP](https://github.c
 The goal is to
 
 1. offload notifications processing into background
-2. keep connection to Apple service open wich give us near-realtime delivery time
-3. have a fallback "to inline" solution coz [Murphy's laws](http://www.murphys-laws.com/murphy/murphy-laws.html)
+2. keep connection to Apple service open which give us near-realtime delivery time
+3. have a fallback "to inline" solution [Murphy's laws](http://www.murphys-laws.com/murphy/murphy-laws.html)
 4. solution needs to be simplest, flexible, easy to maintain and easy to deploy.
 
 
@@ -257,3 +257,7 @@ I personnaly just dispatch notifications inline with the same ApnsPHP library as
 #### Update 04 Dec 2015
    * Added [Message\ApnsPHP](https://github.com/sshilko/backq/commit/33d124d16c5eac041d9ed27f84ce89dd8a80fb26) with 2k payload size instead of 256bytes original (iOS8 upgrade)
 
+#### Update 12 Dec 2015
+   * Added setRestartThreshold($n) to quit worker after processing $n amount of jobs
+   * Added setIdleTimeout($n) to quit worker if received job after $n seconds of inactivity
+   * Fix composer.json and add proper dependencies of apns-php & beanstalkd packages
