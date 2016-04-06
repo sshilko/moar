@@ -50,7 +50,7 @@ baseurl: "http://moar.sshilko.com"
 #baseurl: "http://moar"
 
 
-relative_permalinks: true
+#relative_permalinks: true
 
 #
 # !! You don't need to change any of the configuration flags below !!
