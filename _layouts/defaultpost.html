@@ -23,16 +23,16 @@
     <div class="wrapper-masthead">
       <div class="container">
         <div class="masthead clearfix" style="padding-bottom:0">          
-            <table width="100%" style="margin-bottom:0;margin-top:50px" cellpadding=0 cellspacing=0 border=0>
+            <table width="100%" style="height:20px;margin-bottom:0;margin-top:50px" cellpadding=0 cellspacing=0 border=0>
                 <tr>
-                    <td style="width:33%;text-align:left">
-                        <a style="margin-left:0;font-size:14px;font-family:monospace" href="{{ site.baseurl }}/">go back</a>
+                    <td style="text-align:left;vertical-align: top">
+                        <a style="margin-left:0;font-size:14px;font-family:monospace" href="{{ site.baseurl }}/">&#x21e6;&nbsp;go back</a>
                     </td>
                     <td style="width:33%;text-align:center">
-                        <a href="https://twitter.com/share" class="twitter-share-button" data-via="sshilko" >Tweet</a>
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-via="sshilko" >&#x1f426; &nbsp; tweet</a>
                     </td>
-                    <td style="width:33%;text-align:right">
-                        <a style="margin-left:0;font-size:14px;font-family:monospace" href="{{ site.baseurl }}/">go back</a>
+                    <td style="text-align:right;vertical-align: top">
+                        <a style="margin-left:0;font-size:14px;font-family:monospace" href="{{ site.baseurl }}/">&#x21e6;&nbsp;go back</a>
                     </td>
                 </tr>
             </table>
@@ -43,23 +43,26 @@
     <div id="main" role="main" class="container">
       {{ content }}
 
+
       <!-- disqs start -->
-      <div> 
-      <!-- This is the actual comments section -->
-      <div id="disqus_thread"></div>
-      <script type="text/javascript">
-       var disqus_shortname = 'sshilko';
-       var disqus_title = '{% if page.title %}{{ page.title }} – {% endif %}{{ site.name }} – {{ site.description }}';
-       (function() {
-           var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-           dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-           (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-       })();
-        </script>
+      <!--
+      <div id="disq">
+          <div id="disqus_thread"></div>
+          <script type="text/javascript" defer>
+           var disqus_shortname = 'sshilko';
+           var disqus_title = '{% if page.title %}{{ page.title }} – {% endif %}{{ site.name }} – {{ site.description }}';
+           (function() {
+               var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+               dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+               (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+           })();
+            </script>
        </div>
+       -->
        <!-- disqs end -->
 
     </div>
+
 
     {% include analytics.html %}
 

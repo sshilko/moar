@@ -3,7 +3,7 @@ layout: post
 title: Building RabbitMQ with plugins on AWS EC2
 ---
 
-#### Introduction
+#### Realtime Messaging Broker & MQTT
 
 Guide on building latest RabbitMQ 3.4.1 on Ubuntu Server 14.04.
 

@@ -3,7 +3,7 @@ layout: post
 title: Evaluating MongoDB as key value/document store
 ---
 
-#### Introduction
+#### MongoDB configuration issues
 
 [MongoDB](https://www.mongodb.org/) is a [Document Store](http://nosql-database.org/), currently used it as a key-value (document) storage.
 

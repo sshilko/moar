@@ -3,7 +3,7 @@ layout: post
 title: High-grade Encryption with Amazon AWS Elastic Load Balancers
 ---
 
-#### Introduction
+#### AWS ELB Introduction
 
 AWS Provides simple load balancing via [AWS ELB](https://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/TerminologyandKeyConcepts.html)
 

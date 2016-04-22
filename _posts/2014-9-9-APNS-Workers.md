@@ -261,3 +261,8 @@ I personnaly just dispatch notifications inline with the same ApnsPHP library as
    * Added setRestartThreshold($n) to quit worker after processing $n amount of jobs
    * Added setIdleTimeout($n) to quit worker if received job after $n seconds of inactivity
    * Fix composer.json and add proper dependencies of apns-php & beanstalkd packages
+
+#### Update 22 Apr 2016
+   * Version updated to stable 1.12 with many bugfixes & performance improvements
+   * The socket write/read layer was rewritten and is bulletproff with custom performance vs reliability setting
+   * This may be the last (BinaryProtocol) version, because Apple deployed HTTP2 gateway.

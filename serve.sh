@@ -4,4 +4,4 @@
 #/bin/bash --login
 #rvm use default
 
-jekyll serve -P 80 -H 127.0.0.1 -b "" --config _local.yml
+jekyll serve -t -P 8080 -H 127.0.0.1 -b "" --config _local.yml
