@@ -69,5 +69,6 @@ They have at least 5+ years of experience, and usually 10+ years and may not be 
 4. [Marketing Technology Landscape Supergraphic (2016)](http://chiefmartec.com/2016/03/marketing-technology-landscape-supergraphic-2016/)
 5. [GEHALTSÜBERSICHT FÜR 2015 Wie viel Ihr Chef Ihnen mehr zahlen sollte](http://www.handelsblatt.com/unternehmen/beruf-und-buero/buero-special/gehaltsuebersicht-fuer-2015-tabelle-it-berufe/10752686-5.html)
 6. [2016 Berlin Salary Report](https://jobspotting.com/en/journal/berlin-startup-salary-report/)
+7. [PHP Sux](https://evertpot.com/PHP-Sucks/)
 
 ![http://dilbert.com/strip/2009-03-21](http://assets.amuniversal.com/837e16106cbb01301d46001dd8b71c47)
