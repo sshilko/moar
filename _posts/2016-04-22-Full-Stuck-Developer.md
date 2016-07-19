@@ -70,5 +70,8 @@ They have at least 5+ years of experience, and usually 10+ years and may not be 
 5. [GEHALTSÜBERSICHT FÜR 2015 Wie viel Ihr Chef Ihnen mehr zahlen sollte](http://www.handelsblatt.com/unternehmen/beruf-und-buero/buero-special/gehaltsuebersicht-fuer-2015-tabelle-it-berufe/10752686-5.html)
 6. [2016 Berlin Salary Report](https://jobspotting.com/en/journal/berlin-startup-salary-report/)
 7. [PHP Sux](https://evertpot.com/PHP-Sucks/)
+8. [Amazon software engineer interview](http://sobit.me/2016/07/08/amazon-software-engineer-interview/)
+9. [Inside Amazon: Wrestling Big Ideas in a Bruising Workplace 1](http://www.nytimes.com/2015/08/16/technology/inside-amazon-wrestling-big-ideas-in-a-bruising-workplace.html)
+10. [Inside Amazon: Wrestling Big Ideas in a Bruising Workplace 2](https://www.linkedin.com/pulse/amazonians-response-inside-amazon-wrestling-big-ideas-nick-ciubotariu)
 
 ![http://dilbert.com/strip/2009-03-21](http://assets.amuniversal.com/837e16106cbb01301d46001dd8b71c47)
