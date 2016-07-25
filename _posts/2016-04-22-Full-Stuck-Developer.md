@@ -74,4 +74,5 @@ They have at least 5+ years of experience, and usually 10+ years and may not be 
 9. [Inside Amazon: Wrestling Big Ideas in a Bruising Workplace 1](http://www.nytimes.com/2015/08/16/technology/inside-amazon-wrestling-big-ideas-in-a-bruising-workplace.html)
 10. [Inside Amazon: Wrestling Big Ideas in a Bruising Workplace 2](https://www.linkedin.com/pulse/amazonians-response-inside-amazon-wrestling-big-ideas-nick-ciubotariu)
 11. [Speeding Up the web with PHP7 by Rasmus Lerdorf @rasmus](http://talks.php.net/confoo16#)
+12. [Button Thinking versus consistent IT-product](https://medium.com/@alexander.byndyu/button-thinking-versus-consistent-it-product-3f5c6341cda2)
 ![http://dilbert.com/strip/2009-03-21](http://assets.amuniversal.com/837e16106cbb01301d46001dd8b71c47)
