@@ -469,12 +469,6 @@ ${PHP_EXTENSIONS_DIR}/opcache.so \
 \cp ${PHP_INI_FPM_FILE}.default ${PHP_INI_FPM_FILE}
 {% endhighlight %}
 
-The only thin missing is php.ini file itself
-
-{% highlight bash %}
-touch ${PHP_PREFIX_DIR}/etc/php.ini
-{% endhighlight %}
-
 #### Build deb package
 
 To share our package, lets create a simplest deb package (27) (28)
