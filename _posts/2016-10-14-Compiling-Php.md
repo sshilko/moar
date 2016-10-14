@@ -159,9 +159,9 @@ CMAKE_CFLAGS="-m64 -march=corei7 -O2 -fPIC"
 
 We are building
 
-* for intel 64bit cpu with -march=corei7 [19] gcc flag
+* for intel 64bit cpu with `-march=corei7` [19] gcc flag
 * for (debian amd64) or (gnu x86_64) which are the same (see `cat /usr/share/dpkg/cputable`)
-* everything is installed under /usr/local/php7
+* everything is installed under `/usr/local/php7`
 * we generate code for a 64-bit environment only [19]
 * we enable some optimizations like `-mfpmath=sse -minline-all-stringops` (-mfpmath=sse is default for x86-64 compiler [19])
 * `-fstack-protector --param=ssp-buffer-size=4` is hardening option [30] for `GCC<4.9`, that emit extra code to check for buffer overflows
