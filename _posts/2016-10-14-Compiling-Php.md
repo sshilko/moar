@@ -81,7 +81,7 @@ This installs my set of required packages for building [1].
 If u need more, for example you need webp support for [GD extension](http://php.net/manual/en/book.image.php) for [imagewebp](http://php.net/manual/en/function.imagewebp.php) function then according to [GD documentation](http://php.net/manual/en/image.installation.php)
 you will need to install 
 
-* `as of PHP 5.5. As of PHP 7.0.0 --with-webp-dir=DIR has to be added`
+* `As of PHP 7.0.0 --with-webp-dir=DIR has to be added`
 * `apt-get install libwebp-dev`
 * `--with-webp-dir=/usr`
 
@@ -93,6 +93,7 @@ Second, we will use gcc 4.8 according to this [gcc roadman](https://gcc.gnu.org/
 Lets compile latest released version atm. [7.0.11](http://www.php.net/ChangeLog-7.php#7.0.11)
 
 To make it more challenging and be real-world case, lets compile it with some extensions
+
 * with one static extension [redis](https://pecl.php.net/package/redis)
 * with one shared extension via phpize [amqp](https://pecl.php.net/package/amqp)
 * and our amqp extension has another dependency (rabbitmq-c)[https://github.com/alanxz/rabbitmq-c] or `librabbitmq-dev`
@@ -178,7 +179,7 @@ Now as we have PHP sources, lets deal our extension dependency `librabbitmq`.
 First we need to check if we dont have it installed `pkg-config librabbitmq --libs`.
 Because (26) GCC first searches for libraries in `/usr/local/lib`, then in `/usr/lib`. 
 Following that, it searches for libraries in the directories specified by the -L parameter, in the order specified on the command line.
-Means if we have `librabbitmq` library installed, GCC will link agains it ignoring our  library.
+If we do have `librabbitmq` library installed, GCC will link agains it ignoring our  library.
 
 {% highlight bash %}
 #REMOVE ANY PREINSTALLED PACKAGE (check `pkg-config librabbitmq --libs`)
@@ -312,7 +313,7 @@ Few notes on configure flags
 * xml is required for [utf8_decode](http://php.net/manual/en/function.utf8-decode.php) & utf8_encode
 * most of the libraries are compiled-in, while only few are built as shared (i.e. `--with-gd=shared`)
 
-What extensions you wish to build as shared up to you, here is a mine sizes reference table
+What extensions you wish to build as shared is up to you, here is a mine sizes reference table
 
 {% highlight bash %}
 
