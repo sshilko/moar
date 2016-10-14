@@ -96,7 +96,7 @@ To make it more challenging and be real-world case, lets compile it with some ex
 
 * with one static extension [redis](https://pecl.php.net/package/redis)
 * with one shared extension via phpize [amqp](https://pecl.php.net/package/amqp)
-* and our amqp extension has another dependency (rabbitmq-c)[https://github.com/alanxz/rabbitmq-c] or `librabbitmq-dev`
+* and our amqp extension has another dependency [rabbitmq-c](https://github.com/alanxz/rabbitmq-c) or `librabbitmq-dev`
 
 {% highlight bash %}
 cd ~
