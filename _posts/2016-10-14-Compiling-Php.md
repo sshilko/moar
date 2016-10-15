@@ -132,6 +132,7 @@ PHP_LIB_DIR="${PHP_PREFIX_DIR}/lib"
 PHP_BIN_DIR="${PHP_PREFIX_DIR}/bin"
 PHP_EXTENSIONS_DIR="${PHP_LIB_DIR}/${PHP_ZEND_API}"
 
+PHP_INITD_DIR="${PHP_PREFIX_DIR}/init.d"
 PHP_INI_CLI_DIR="${PHP_PREFIX_DIR}/etc"
 PHP_INI_CLI_FILE="${PHP_INI_CLI_DIR}/php.ini"
 PHP_INI_CLI_SCAN_DIR="${PHP_INI_CLI_DIR}/conf.d"
@@ -468,6 +469,11 @@ ${PHP_EXTENSIONS_DIR}/opcache.so \
 > "${PHP_INI_CLI_ZENDEXTENSIONS}"
 
 \cp ${PHP_INI_FPM_FILE}.default ${PHP_INI_FPM_FILE}
+
+mkdir -p "${PHP_INITD_DIR}"
+cp sapi/fpm/init.d.php-fpm ${PHP_INITD_DIR}/php-fpm
+chmod +x ${PHP_INITD_DIR}/php-fpm
+
 {% endhighlight %}
 
 #### Build deb package
