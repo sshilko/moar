@@ -65,6 +65,8 @@ software-properties-common \
 libssl-dev \
 autoconf \
 git-core \
+zlib1g-dev \
+libc-bin \
 cmake
 
 apt-get install pkg-config
@@ -481,6 +483,10 @@ chmod +x ${PHP_INITD_DIR}/php-fpm
 To share our package, lets create a simplest deb package (27) (28)
 
 {% highlight bash %}
+#curl   uses system libcurl and openssl which are provided by `libcurl4-openssl-dev`
+#zlib   is provided by `zlib1g-dev`
+#iconv  is provided by `libc-bin` (`/usr/bin/iconv`)
+#libxml is provided by `libxml2-dev`
 
 PHP_PACKAGE_DEB_NAME="mypackage-php-name"
 PHP_PACKAGE_MAINTAINER="Sergei Shilko <contact@sshilko.com>"
@@ -495,7 +501,7 @@ Version: ${PHP_VERSION}
 Section: base
 Priority: optional
 Architecture: amd64
-Depends:
+Depends: libcurl4-openssl-dev, zlib1g-dev (>= 1.0.9), libc-bin, libxml2-dev (>= 2.6.0)
 Maintainer: ${PHP_PACKAGE_MAINTAINER}
 Description: PHP" > ${PHP_FULLVERSION}/DEBIAN/control
 
