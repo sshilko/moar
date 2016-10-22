@@ -501,7 +501,7 @@ Version: ${PHP_VERSION}
 Section: base
 Priority: optional
 Architecture: amd64
-Depends: libcurl3, zlib1g-dev (>= 1.0.9), libc-bin, libxml2 (>= 2.6.0)
+Depends: libcurl3, zlib1g (>= 1.0.9), libc-bin, libxml2 (>= 2.6.0)
 Maintainer: ${PHP_PACKAGE_MAINTAINER}
 Description: PHP" > ${PHP_FULLVERSION}/DEBIAN/control
 
