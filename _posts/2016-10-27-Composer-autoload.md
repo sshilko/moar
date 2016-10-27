@@ -106,6 +106,7 @@ if class is not found without our own libraries (u dont need 100% of our compose
  * http://www.php-fig.org/psr/psr-0/
  * @author Sergei Shilko <contact@sshilko.com>
  */
+$classMap = []; 
 spl_autoload_register(function (string $className) use (&$classMap) {
     if (isset($classMap[$className])) {
         return include $classMap[$className];
