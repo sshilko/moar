@@ -51,7 +51,7 @@ cd ${0%/*};
 
 printf "\n";
 find $PWD/.. \( -iname "*.php" -o -iname "*.tpl" -o -iname "*.ini" \) -type f -mmin -10 | \
-xargs -n1 -I % ./php-fpm-cli -r \
+xargs -n1 -I % ./php-fpm-cli -connect '/var/run/php5-fpm.sock' -r \
 "echo 'PHP OPCODE CACHE '; \
 echo (opcache_get_status(FALSE) && opcache_get_status(FALSE)['opcache_enabled']) ? ( \
     (opcache_invalidate('%') && opcache_compile_file('%')) ? 'REFRESHED %' : 'FAILED OPCODE INVALIDATION %' \
