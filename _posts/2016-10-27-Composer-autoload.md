@@ -50,11 +50,12 @@ Invalidate & recompile OPcache on each deploy ONLY for files you modified, see
 cd ${0%/*};
 
 printf "\n";
+
 find $PWD/.. \( -iname "*.php" -o -iname "*.tpl" -o -iname "*.ini" \) -type f -mmin -10 | \
 xargs -n1 -I % ./php-fpm-cli -connect '/var/run/php5-fpm.sock' -r \
-"echo 'PHP OPCODE CACHE '; \
-echo (opcache_get_status(FALSE) && opcache_get_status(FALSE)['opcache_enabled']) ? ( \
-    (opcache_invalidate('%') && opcache_compile_file('%')) ? 'REFRESHED %' : 'FAILED OPCODE INVALIDATION %' \
+"echo 'PHP OPCODE CACHE';
+echo (opcache_get_status(FALSE) && opcache_get_status(FALSE)['opcache_enabled']) ? (
+    (opcache_invalidate('%') && opcache_compile_file('%')) ? 'REFRESHED %' : 'FAILED OPCODE INVALIDATION %'
 ) : 'OFF OR DONE %';print \"\n\";";
 
 printf "\n";
