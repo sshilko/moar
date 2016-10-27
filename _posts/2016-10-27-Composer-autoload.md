@@ -40,6 +40,7 @@ Invalidate & recompile OPcache on each deploy ONLY for files you modified, see
 * [opcache_get_status](http://php.net/manual/en/function.opcache-get-status.php)
 * [opcache_invalidate](http://php.net/manual/en/function.opcache-invalidate.php)
 * [opcache_compile_file](http://us1.php.net/manual/en/function.opcache-compile-file.php)
+* [php-fpm-cli](https://gist.github.com/muhqu/91497df3a110f594b992)
 
 {% highlight bash %}
 #!/bin/bash
