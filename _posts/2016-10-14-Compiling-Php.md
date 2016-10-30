@@ -30,6 +30,7 @@ Our goal is to have our own stable redistributable package (deb) of custom PHP b
 5. <a href='#compilephpize-extension'>Compile/phpize extension</a>
 6. <a href='#generate-ini-files'>Generate INI files</a>
 7. <a href='#build-deb-package'>Build deb package</a>
+8. <a href='#benchmarking'>Benchmarking</a>
 
 #### Read docs
 
@@ -92,7 +93,7 @@ Second, we will use gcc 4.8 according to this [gcc roadman](https://gcc.gnu.org/
 
 #### Fetch PHP
 
-Lets compile latest released version atm. [7.0.11](http://www.php.net/ChangeLog-7.php#7.0.11)
+Lets compile latest released version atm. [7.0.12](http://www.php.net/ChangeLog-7.php#7.0.12)
 
 To make it more challenging and be real-world case, lets compile it with some extensions
 
@@ -103,7 +104,7 @@ To make it more challenging and be real-world case, lets compile it with some ex
 {% highlight bash %}
 cd ~
 
-PHP_VERSION="7.0.11"
+PHP_VERSION="7.0.12"
 PHP_FULLVERSION="php-${PHP_VERSION}"
 PHP_SOURCES_FILE="${PHP_FULLVERSION}.tar.gz"
 PHP_SOURCES_LOCATION="http://de1.php.net/get/${PHP_SOURCES_FILE}/from/this/mirror"
@@ -355,19 +356,19 @@ In the end we get our php installed under `PHP_INSTALL_ROOT`.
 
 {% highlight bash %}
 
-$ /usr/local/php7/7.0.11/bin/php -n --ini
-Configuration File (php.ini) Path: /usr/local/php7/7.0.11/etc
+$ /usr/local/php7/7.0.12/bin/php -n --ini
+Configuration File (php.ini) Path: /usr/local/php7/7.0.12/etc
 Loaded Configuration File:         (none)
 Scan for additional .ini files in: (none)
 Additional .ini files parsed:      (none)
 
-$ /usr/local/php7/7.0.11/sbin/php-fpm -v
-PHP 7.0.11 (fpm-fcgi) (built: Oct 13 2016 11:38:14)
+$ /usr/local/php7/7.0.12/sbin/php-fpm -v
+PHP 7.0.12 (fpm-fcgi) (built: Oct 13 2016 11:38:14)
 Copyright (c) 1997-2016 The PHP Group
 Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
-    with Zend OPcache v7.0.11, Copyright (c) 1999-2016, by Zend Technologies
+    with Zend OPcache v7.0.12, Copyright (c) 1999-2016, by Zend Technologies
 
-$ /usr/local/php7/7.0.11/bin/php -n -m
+$ /usr/local/php7/7.0.12/bin/php -n -m
 [PHP Modules]
 bcmath
 Core
@@ -443,7 +444,7 @@ This should build `amqp.so` that is linked agains our `librabbitmq`
 
 {% highlight bash %}
 ldd ${PHP_EXTENSIONS_DIR}/amqp.so |grep librabbitmq
-#2:	librabbitmq.so.4 => /usr/local/php7/7.0.11/lib/rabbitmq-shared/lib/x86_64-linux-gnu/librabbitmq.so.4 (0x00007f910d263000)
+#2:	librabbitmq.so.4 => /usr/local/php7/7.0.12/lib/rabbitmq-shared/lib/x86_64-linux-gnu/librabbitmq.so.4 (0x00007f910d263000)
 {% endhighlight %}
 
 #### Generate INI files
@@ -508,6 +509,28 @@ Description: PHP" > ${PHP_FULLVERSION}/DEBIAN/control
 dpkg-deb --build ${PHP_FULLVERSION}
 mv ${PHP_FULLVERSION}.deb ${PHP_PACKAGE_DEB_NAME}-`date +"%F"`.deb
 rm -rf ${PHP_FULLVERSION}
+{% endhighlight %}
+
+#### Benchmarking
+
+Compare [7.0.10-2+deb.sury.org~trusty+1](http://deb.sury.org) vs our compiled 7.0.12 under ±5K RPM with [NewRelic](https://newrelic.com)
+
+* Linux 3.13.0-74-generic x86_64
+* New Relic agent 2.2.0.125
+* Intel(R) Xeon(R) CPU E5-2680 v2 @ 2.80GHz 4 cores 7.3 GB RAM
+
+![Response Time](/images/compiled_php7_responsetime.png)
+
+![CPU Time](/images/compiled_php7_cputime.png)
+
+![Networking](/images/compiled_php7_network.png)
+
+
+{% highlight bash %}
+#/usr/bin/php-config7.0
+#7.0.10-2+deb.sury.org~trusty+1
+
+--configure-options [--includedir=/usr/include --mandir=/usr/share/man --infodir=/usr/share/info --libdir=/usr/lib/x86_64-linux-gnu --libexecdir=/usr/lib/x86_64-linux-gnu --disable-maintainer-mode --disable-dependency-tracking --prefix=/usr --enable-cli --disable-cgi --disable-phpdbg --with-config-file-path=/etc/php/7.0/cli --with-config-file-scan-dir=/etc/php/7.0/cli/conf.d --build=x86_64-linux-gnu --host=x86_64-linux-gnu --config-cache --cache-file=/build/php7.0-DVHBcL/php7.0-7.0.10/config.cache --libdir=${prefix}/lib/php --libexecdir=${prefix}/lib/php --datadir=${prefix}/share/php/7.0 --program-suffix=7.0 --sysconfdir=/etc --localstatedir=/var --mandir=/usr/share/man --disable-all --disable-debug --disable-rpath --disable-static --with-pic --with-layout=GNU --without-pear --enable-filter --with-openssl=yes --with-pcre-regex=/usr --enable-hash --with-mhash=/usr --enable-libxml --enable-session --with-system-tzdata --with-zlib=/usr --with-zlib-dir=/usr --enable-dtrace --enable-pcntl --with-libedit=shared,/usr build_alias=x86_64-linux-gnu host_alias=x86_64-linux-gnu CFLAGS=-g -O2 -fPIE -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -O2 -Wall -pedantic -fsigned-char -fno-strict-aliasing -g]
 {% endhighlight %}
 
 #### <a href='#docs' id='docs'>Literature</a>
