@@ -173,8 +173,10 @@ for your own (legacy) code, just autogenerate map on-fly
 
 {% highlight bash %}
 
-$classMapFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'someprefix_' . 'runtime_classmap.php';
-$classMap     = @include $classMapFile;
+$classMapFile   = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'someprefix_' . 'runtime_classmap.php';
+if (!($classMap = include($classMapFile))) {
+    $classMap = [];
+};
 $classMapSize = count($classMap);
 
 register_shutdown_function(function () use (&$classMap, $classMapFile, $classMapSize) {
