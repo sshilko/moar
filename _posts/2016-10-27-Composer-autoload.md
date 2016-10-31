@@ -84,7 +84,7 @@ user_ini.cache_ttl=86400
 
 #### Hybrid PSR-0 autoloader
 
-Another thing u could do is, if u have a library, lets say [zendframework](https://github.com/zendframework/zf1) 
+Another thing u could do is, if you have a library, lets say [zendframework](https://github.com/zendframework/zf1) 
 in (composer/zendframework/) instead of loading whole composer with all your packages, you should do hybrid autoloader
 
 Instead of loading whole composer classmap, just put a symlink into your include_path to your zendframework,
