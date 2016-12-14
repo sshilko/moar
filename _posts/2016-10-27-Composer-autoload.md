@@ -182,14 +182,27 @@ $classMapSize = count($classMap);
 register_shutdown_function(function () use (&$classMap, $classMapFile, $classMapSize) {
     if (count($classMap) > $classMapSize) {
         clearstatcache();
-        if (file_put_contents($classMapFile, '<?php return ' . var_export($classMap, true) . ';', LOCK_EX)) {
-            if (function_exists('opcache_invalidate')) {
-                opcache_invalidate($classMapFile);
+        if ($newMapFile = tmpfile()) {
+            $metaDatas  = stream_get_meta_data($newMapFile);
+            if ($metaDatas['uri']) {
+                $newMap = '<?php return ' . var_export($classMap, true) . ';';
+                if (strlen($newMap) == fwrite($newMapFile, $newMap)) {
+                    if (copy($metaDatas['uri'], $classMapFile)) {
+                        if (function_exists('opcache_invalidate') && function_exists('opcache_compile_file')) {
+                            opcache_invalidate($classMapFile, true);
+                            opcache_compile_file($classMapFile);
+                        }
+                        chmod($classMapFile, 0644);
+                    }
+                }
             }
-            chmod($classMapFile, 0666);
+            fclose($newMapFile);
         }
     }
 });
 
 {% endhighlight %}
+
+#### Update Dec 2016
+ * Updated register_shutdown_function for high concurrent reads&writes
 
