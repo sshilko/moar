@@ -263,6 +263,9 @@ I personnaly just dispatch notifications inline with the same ApnsPHP library as
    * Fix composer.json and add proper dependencies of apns-php & beanstalkd packages
 
 #### Update 22 Apr 2016
-   * Version updated to stable 1.12 with many bugfixes & performance improvements
+   * Version updated to stable 1.1.2 with many bugfixes & performance improvements
    * The socket write/read layer was rewritten and is bulletproff with custom performance vs reliability setting
    * This may be the last (BinaryProtocol) version, because Apple deployed HTTP2 gateway.
+
+#### Update 22 Apr 2016
+   * Version updated to 1.2, fixing some of interface syntax, refactoring queueName logic, doing universal restartThreshold & idleTimeout detection
