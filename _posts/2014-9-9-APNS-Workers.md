@@ -267,5 +267,5 @@ I personnaly just dispatch notifications inline with the same ApnsPHP library as
    * The socket write/read layer was rewritten and is bulletproff with custom performance vs reliability setting
    * This may be the last (BinaryProtocol) version, because Apple deployed HTTP2 gateway.
 
-#### Update 22 Apr 2016
+#### Update 11 Jan 2017
    * Version updated to 1.2, fixing some of interface syntax, refactoring queueName logic, doing universal restartThreshold & idleTimeout detection
