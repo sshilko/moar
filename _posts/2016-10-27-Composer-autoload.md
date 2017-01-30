@@ -190,7 +190,7 @@ register_shutdown_function(function () use (&$classMap, $classMapFile, $classMap
             $metaDatas  = stream_get_meta_data($newMapFile);
             if ($metaDatas['uri']) {
                 $newMap = '<?php return ' . var_export($classMap, true) . ';';
-                if (strlen($newMap) == fwrite($newMapFile, $newMap)) {
+                if (strlen($newMap) == fwrite($newMapFile, $newMap) && fflush($newMapFile)) {
                     if (copy($metaDatas['uri'], $classMapFile)) {
                         if (function_exists('opcache_invalidate') && function_exists('opcache_compile_file')) {
                             opcache_invalidate($classMapFile, true);
