@@ -191,12 +191,13 @@ register_shutdown_function(function () use (&$classMap, $classMapFile, $classMap
             if ($metaDatas['uri']) {
                 $newMap = '<?php return ' . var_export($classMap, true) . ';';
                 if (strlen($newMap) == fwrite($newMapFile, $newMap) && fflush($newMapFile)) {
-                    if (copy($metaDatas['uri'], $classMapFile)) {
-                        if (function_exists('opcache_invalidate') && function_exists('opcache_compile_file')) {
-                            opcache_invalidate($classMapFile, true);
-                            opcache_compile_file($classMapFile);
-                        }
-                        chmod($classMapFile, 0644);
+                    @copy($metaDatas['uri'], $classMapFile);
+                    if (md5_file($metaDatas['uri']) == md5_file($classMapFile)) {
+                         if (function_exists('opcache_invalidate') && function_exists('opcache_compile_file')) {
+                             opcache_invalidate($classMapFile, true);
+                             opcache_compile_file($classMapFile);
+                         }
+                         chmod($classMapFile, 0644);
                     }
                 }
             }
@@ -210,3 +211,5 @@ register_shutdown_function(function () use (&$classMap, $classMapFile, $classMap
 #### Update Dec 2016
  * Updated register_shutdown_function for high concurrent reads&writes
 
+#### Update Mar 2017
+* Additionnal checks for written files consistency
