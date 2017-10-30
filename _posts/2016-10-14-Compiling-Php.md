@@ -3,7 +3,7 @@ layout: post
 title: Compiling PHP
 ---
 
-#### Compiling PHP on Ubuntu x86_64
+#### Compiling PHP 7.1 on Ubuntu 14.04 x86_64
 
 After going thru all of troubles with compiling PHP, which was actually a fun process that took around 4 days in total,
 i wanted to share the how-to guide, for myself to remember and for other to have a reference.
@@ -532,6 +532,32 @@ Compare [7.0.10-2+deb.sury.org~trusty+1](http://deb.sury.org) vs our compiled 7.
 
 --configure-options [--includedir=/usr/include --mandir=/usr/share/man --infodir=/usr/share/info --libdir=/usr/lib/x86_64-linux-gnu --libexecdir=/usr/lib/x86_64-linux-gnu --disable-maintainer-mode --disable-dependency-tracking --prefix=/usr --enable-cli --disable-cgi --disable-phpdbg --with-config-file-path=/etc/php/7.0/cli --with-config-file-scan-dir=/etc/php/7.0/cli/conf.d --build=x86_64-linux-gnu --host=x86_64-linux-gnu --config-cache --cache-file=/build/php7.0-DVHBcL/php7.0-7.0.10/config.cache --libdir=${prefix}/lib/php --libexecdir=${prefix}/lib/php --datadir=${prefix}/share/php/7.0 --program-suffix=7.0 --sysconfdir=/etc --localstatedir=/var --mandir=/usr/share/man --disable-all --disable-debug --disable-rpath --disable-static --with-pic --with-layout=GNU --without-pear --enable-filter --with-openssl=yes --with-pcre-regex=/usr --enable-hash --with-mhash=/usr --enable-libxml --enable-session --with-system-tzdata --with-zlib=/usr --with-zlib-dir=/usr --enable-dtrace --enable-pcntl --with-libedit=shared,/usr build_alias=x86_64-linux-gnu host_alias=x86_64-linux-gnu CFLAGS=-g -O2 -fPIE -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -O2 -Wall -pedantic -fsigned-char -fno-strict-aliasing -g]
 {% endhighlight %}
+
+#### Compiling PHP 7.1.11 on Debian 9 x86_64
+
+To be able to compile for [debian 9 stretch](https://hub.docker.com/_/debian/) minor changes need to be made
+
+Update locale on clean image
+{% highlight bash %}
+apt-get install --no-install-recommends --no-upgrade -y locales libc-l10n
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+locale-gen
+{% endhighlight %}
+
+Dependency changes:
+* libxslt-dev replaced with libxslt1-dev
+* libmysqlclient-dev replaced with default-libmysqlclient-dev
+* libpng12-dev replaced with libpng-dev
+* libedit-dev depencency added
+
+Build tools required, need to be installed manually
+* wget
+* tar
+* unzip
+* less
+
+GCC 6 is the default one in debian 9, no need to install it
+
 
 #### <a href='#docs' id='docs'>Literature</a>
 
