@@ -549,6 +549,7 @@ Dependency changes:
 * libmysqlclient-dev replaced with default-libmysqlclient-dev
 * libpng12-dev replaced with libpng-dev
 * libedit-dev depencency added
+* libt1-dev removed
 
 Build tools required, need to be installed manually
 * wget
