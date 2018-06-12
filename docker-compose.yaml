@@ -1,0 +1,8 @@
+#echo '127.0.0.1 moar.sshilko.com' >> /etc/hosts
+jekyll:
+    image: jekyll/jekyll:pages
+    command: jekyll serve --watch --incremental --config _local.yml
+    ports:
+        - "80:4000/tcp"
+    volumes:
+        - .:/srv/jekyll
