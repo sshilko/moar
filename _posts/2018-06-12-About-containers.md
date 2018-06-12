@@ -221,7 +221,10 @@ kubectl.exe config use-context mycluster-name
 
 Overall we didnt encountered any issues with running docker, it's stable and we continue to migrate to K8S.
 If you dont use Docker i highly recommend it for your local environment and both beta/production.
-Kubernetes 1.10.0 release is an LTS release and is mainstream now (AWS EKS GA in June 2017).
+If you already use Puppet/Chef or other provisioning software, you can easily migrate to docker just
+by running i.e. standalone puppet provisioning inside Docker container.
+
+Kubernetes 1.10.0 release is an LTS release and is mainstream now (AWS EKS GA in June 2018).
 
 #### Links
 - [Kubernetes](https://kubernetes.io)
