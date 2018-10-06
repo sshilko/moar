@@ -41,12 +41,10 @@ JSONP( 'https://api.github.com/users/sshilko?callback=?', function( response ) {
 });
 </script>
 
-### Contact me
+### Feedback
 
 
 <script type="text/javascript">
 document.write('<a target="_blank" href="mailto:' + ('contact@' + 'sshilko.com') + '">by email</a>');
 </script>
-
-<a href="https://github.com/sshilko/Feedback/issues/new" target="_blank">![Leave feedback](/images/sys/feedback.jpg)</a>
  
