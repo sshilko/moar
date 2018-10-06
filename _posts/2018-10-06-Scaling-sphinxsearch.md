@@ -16,7 +16,7 @@ try out sphinx.
 
 Lets start with simple setup and evolve it into scalable configuration.
 
-Initial exaple Dockerfile for our sphinxsearch is Alpine Linux 3.8
+Initial example Dockerfile for our sphinxsearch is Alpine Linux 3.8
 
 {% highlight bash %}
 FROM       alpine:3.8
@@ -217,6 +217,8 @@ I would NOT RECOMMEND SERVING delta index directly and will not give example of 
 delta is just more overhead to searchd daemon while priority should be maximum performance on main indexes, so less memory and less locks are essential.
 
 Instead `indexer merge` should be used to merge delta results into main index once ready.
+
+#### TODO ...
 
 #### Links
 
