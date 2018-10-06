@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Notes on docker and K8s
+title: About containers
 ---
 
 #### Docker in production
