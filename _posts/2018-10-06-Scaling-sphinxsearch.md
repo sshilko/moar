@@ -84,6 +84,7 @@ Here is example configuration containing some products index from MySQL source
 - You generally dont want query_log, and do want some increased defaults for max_filter_values and seamless_rotate = 1
 - Workers could be threads/fork/prefork, realtime indexes only work with threads, also max max_children only has effect if non threads is selected
  the actual sources of sphinxsearch is best documentation of how exactly those settings work
+- Results are fetched with ranges query to reduce server load (separate queries over books table instead of one big)
 
 {% highlight bash %}
 # Custom attribute sizes (bytes to unsigled int's, (possible values = `2^(bits)-1`) <--
@@ -129,6 +130,17 @@ Here is example configuration containing some products index from MySQL source
         #This is executed after the connection is established, before sql_query
         sql_query_pre   = SET NAMES utf8mb4
         sql_query_pre   = SET SESSION query_cache_type=OFF
+        sql_query_pre   = START TRANSACTION READ ONLY
+        
+        sql_query_pre   = CREATE TEMPORARY TABLE IF NOT EXISTS tmpbooks                                  \
+                            (id int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,                    \
+                            book_id int(10) unsigned NOT NULL)                                           \
+                            ENGINE=MEMORY DEFAULT CHARSET=ascii AS (                                     \
+                            SELECT books.id                                                              \
+                              FROM books)                                                                \
+        
+        sql_query_range = SELECT MIN(id), MAX(id) FROM tmpbooks
+        sql_range_step  = 10000
 
         sql_query       = \
                         SELECT books.id,                                               \
@@ -137,6 +149,7 @@ Here is example configuration containing some products index from MySQL source
                                books.timestamp_changed,                                \
                                books.available                                         \
                           FROM books                                                   \
+                         WHERE books.id >= \$start AND books.id <= \$end    
                           
         sql_attr_uint      = author_id
         sql_attr_timestamp = timestamp_added
@@ -217,8 +230,86 @@ I would NOT RECOMMEND SERVING delta index directly and will not give example of 
 delta is just more overhead to searchd daemon while priority should be maximum performance on main indexes, so less memory and less locks are essential.
 
 Instead `indexer merge` should be used to merge delta results into main index once ready.
+Let's add delta index for books added/modified last hour.
 
-#### TODO ...
+Delta will fetch only added/modified books for last hour, so we should re-index delta every hour and merge it into main index.
+
+{% highlight bash %}
+
+    source books_localhost_src_delta_1 : books_localhost_src
+    {
+        sql_query_pre   = SET NAMES utf8mb4
+        sql_query_pre   = SET SESSION query_cache_type=OFF
+        sql_query_pre   = START TRANSACTION READ ONLY
+        
+        sql_query_pre   = CREATE TEMPORARY TABLE IF NOT EXISTS tmpbooks                                  \
+                            (id int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,                    \
+                            book_id int(10) unsigned NOT NULL)                                           \
+                            ENGINE=MEMORY DEFAULT CHARSET=ascii AS (                                     \
+                            SELECT books.id                                                              \
+                              FROM books                                                                 \
+                             WHERE timestamp_added   > UNIX_TIMESTAMP(DATE_SUB(CURDATE(), INTERVAL 60 MINUTE)) \
+                                OR timestamp_changed > UNIX_TIMESTAMP(DATE_SUB(CURDATE(), INTERVAL 60 MINUTE)) \
+                              )                                                                          \
+    }
+    
+    index books_localhost_src_delta_1 : books_localhost_idx
+    {
+        source              = books_localhost_src_delta_1
+        path                = /var/lib/sphinx/books_localhost_src_delta_1
+        #1 - all attributes stay on disk. Daemon loads no files (spa, spm, sps). This is the most memory conserving mode
+        #We never serve delta index directly, no point in loading to memory
+        ondisk_attrs        = 1
+    }        
+    
+{% endhighlight %}
+
+And important is to me merge the index into main with index tool, remember not to serve delta indexes with searchd,
+you can define delta in config but list served indexes as searchd argument on start
+
+{% highlight bash %}
+/usr/bin/searchd --nodetach --index myindex1 --index myindex2 --index books_localhost_idx
+{% endhighlight %}
+
+Then every hour we recalculate delta, notice NO --rotate flag needed as index is not locked by searchd.
+
+{% highlight bash %}
+    indexer --noprogress --verbose books_localhost_src_delta_1 2>&1    
+{% endhighlight %}
+
+At last we merge the delta into main, using merge-dst-range to eliminate no longer available books.
+
+{% highlight bash %}
+  indexer --rotate     \
+          --noprogress \
+          --verbose    \
+          --merge books_localhost_idx books_localhost_src_delta_1 \
+          --merge-dst-range available  0 0                \
+          2>&1 
+{% endhighlight %}
+
+At this point we have merged changes from last hour into our main index.
+
+#### IMPORTANT Notes
+
+- Index **rotation is done asynchronously**, and there is **no indication for rotation end**,
+ that means if you have >1 delta indexes you want to merge into main be carefull with locks as searchd may crash,
+ to prevent that add small (sleep of 5 seconds or so) delay between executing --rotate with merge on deltas
+- Separate your indexes into three groups: 
+    - served indexes (dont serve deltas, dont serve distributed index parts)
+    - booted indexes (not distributed local index, instead parts it consists of, we dont need delta on boot)
+    - deltas indexes (lists of [MAIN + DELTA] indexes you want to merge)
+You can still keep definition of all those indexes in one config.
+
+Following above rules you will be able to create complicated setup i.e.
+- Serve multiple distributed local indexeses (books1, books2)
+- Each consisting of multiple shards (books1_1, books1_2, books_2_1, books_2_2)
+- Each shard having its own delta (books1_1_delta, books1_2_delta, books2_1_delta, books2_2_delta)
+
+Merge/rotate/serve without issues/locks/crashes - preferably autogenerating the whole sphinx.conf.
+
+#### Bash tools
+Todo
 
 #### Links
 
@@ -231,3 +322,5 @@ Instead `indexer merge` should be used to merge delta results into main index on
 - [Sphinx index file formats](https://github.com/sphinxsearch/sphinx/blob/master/doc/internals-index-format.txt)
 - [Sphinx sources](https://github.com/sphinxsearch/sphinx/blob/master/src/searchd.cpp)
 - [Sphinx in docker](http://sphinxsearch.com/blog/2014/07/07/sphinx-in-docker-the-basics/)
+- [Sphinx index merging](http://sphinxsearch.com/docs/current/index-merging.html)
+- [Sphinx 2.3.x fork Manticoresearch](https://github.com/manticoresoftware/manticoresearch)
