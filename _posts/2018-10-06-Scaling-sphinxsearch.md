@@ -284,7 +284,7 @@ At last we merge the delta into main, using merge-dst-range to eliminate no long
           --noprogress \
           --verbose    \
           --merge books_localhost_idx books_localhost_src_delta_1 \
-          --merge-dst-range available  0 0                \
+          --merge-dst-range available  1 1                \
           2>&1 
 {% endhighlight %}
 
