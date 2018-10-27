@@ -308,6 +308,27 @@ Following above rules you will be able to create complicated setup i.e.
 
 Merge/rotate/serve without issues/locks/crashes - preferably autogenerating the whole sphinx.conf.
 
+#### Update 27.10.2018
+
+- Index rotation is async, and all indexes are attempted to be rotated.
+We can use this to our advantage, instead of merge+rotate+wait each delta, we can
+only merge each delta and execute rotate in the end with use of --nohup flag.
+
+{% highlight bash %}
+  #merge all your delta indexes into main indexes (delta1 -> main1, delta2 -> main2, ...) 
+  indexer --rotate     \
+          --nohup      \
+          --noprogress \
+          --verbose    \
+          --merge books_localhost_idx books_localhost_src_delta_1 \
+          --merge-dst-range available  1 1                \
+          2>&1 
+
+  #send single SIGHUP to searchd, will trigger ALL served indexes check for new/fresh data (basicly .new files)
+  kill -s SIGHUP `pidof searchd`
+          
+{% endhighlight %}
+
 #### Bash tools
 Todo
 
