@@ -332,6 +332,18 @@ only merge each delta and execute rotate in the end with use of --nohup flag.
 #### Bash tools
 Todo
 
+#### Update 13 Nov 2018
+
+After migrating to SphinxQL from SphinxAPI, there are basicly no performance improvements just because of that. And regarding article 'Sphinx search performance optimization: attribute-based filters' from 15.01.2013 on percona website, in my case i was using only numeric attributes for filtering and saw:
+- 0% performance change after moving from SphinxAPI to SphinxQL for the same attribute filter queries
+- worse performance when mixing attribute search and field-search while putting the same integer MVA attributes into sql_field_string "indexed" attribute
+- there are none performance boost when using persistent SphinxQL connections compared to SphinxAPI persistent connections
+- there is small boost to using persistent SphinxQL connections vs non-persistent SphinxAPI but the difference is only seen in peak traffic/rps and just require searchd configuration changes (workers=tread_pool, max_children=YOUR_PEAK_ACTIVE_CONNECTIONS)
+
+Additionnal downside is that there is no way to get "total_found" value via SphinxQL in same request - one would need to execute "SHOW META" SQl statement, instead of one SphinxAPI request (that's two requests vs 1 in SphinxAPI).
+
+Good thing is debugging and profiling SphinxQL is easier and more friendly to operator.
+
 #### Links
 
 - [Sphinx 2.2.11-release reference manual](http://sphinxsearch.com/docs/current.html)
@@ -345,3 +357,4 @@ Todo
 - [Sphinx in docker](http://sphinxsearch.com/blog/2014/07/07/sphinx-in-docker-the-basics/)
 - [Sphinx index merging](http://sphinxsearch.com/docs/current/index-merging.html)
 - [Sphinx 2.3.x fork Manticoresearch](https://github.com/manticoresoftware/manticoresearch)
+- [Optimization: attribute-based filters](https://www.percona.com/blog/2013/01/15/sphinx-search-performance-optimization-attribute-based-filtering/)
