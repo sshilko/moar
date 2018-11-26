@@ -358,3 +358,4 @@ Good thing is debugging and profiling SphinxQL is easier and more friendly to op
 - [Sphinx index merging](http://sphinxsearch.com/docs/current/index-merging.html)
 - [Sphinx 2.3.x fork Manticoresearch](https://github.com/manticoresoftware/manticoresearch)
 - [Optimization: attribute-based filters](https://www.percona.com/blog/2013/01/15/sphinx-search-performance-optimization-attribute-based-filtering/)
+- [Refactored SphinxAPI client](/files/SphinxClient.php)
