@@ -363,6 +363,7 @@ and prevents searchd from dropping connections (as per tcp listen backlog direct
 - net_workers=1 changing it to anything other than 1 degrated performance, big values >N-cpu affected performance significantly
 - net_wait_tm=-1 we changed it to -1 setting poller to 1ms interval, this reduced the response times and makes sense, performance increased
 - net_throttle_accept or net_throttle_action didnt make any difference
+- max_children value was removed (default to unlimited), this improved the performance and made graph linear
 
 Usefull commands for profiling Manticoresearch:
 - show plan;
