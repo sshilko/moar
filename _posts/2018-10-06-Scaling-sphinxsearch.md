@@ -374,6 +374,35 @@ ManticoreSearch 2.7.3 in Docker, c5.xlarge AWS instance (4vCPU, 8GB RAM, 10Gbps 
 
 ![MongoCursor](/images/manticoresearch273tuned.png)
 
+Further approach of using full-text search on attributes improved results by 50x times (5000% better)
+- MVA attributes indexed as sql_field_string
+- sql_field_string used in MATCH() duplicating sql_attr_* filters usint EXTENDED match syntax
+- qcache_thresh_msec = 5 reduced minimum cache hit time
+
+{% highlight bash %}
+SELECT a,
+       b,
+       (IN(c_sql_attr_multi, 1, 2, 3) AND IN(d_sql_attr_multi, 4, 5, 6))) as e
+  FROM indexa
+ WHERE e = 1
+{% endhighlight %}
+
+became
+
+{% highlight bash %}
+SELECT a,
+       b,
+       (IN(c_sql_attr_multi, 1, 2, 3) AND IN(d_sql_attr_multi, 4, 5, 6))) as e
+  FROM indexa
+ WHERE MATCH('((@c_field 1 | 2 | 3) (@d_field 4 | 5 | 6))')
+   AND e = 1
+{% endhighlight %}
+
+Final JMeter 3.3 load test profile with 1000 concurrent users (connections), SQL interface, ramp-up = 0,
+ManticoreSearch 2.7.3 in Docker, c5.xlarge AWS instance (4vCPU, 8GB RAM, 10Gbps network), and MATCH optimization
+
+![MongoCursor](/images/manticoresearch273tuned_field.png)
+
 #### Links
 
 - [Sphinx 2.2.11-release reference manual](http://sphinxsearch.com/docs/current.html)
