@@ -344,6 +344,35 @@ Additionnal downside is that there is no way to get "total_found" value via Sphi
 
 Good thing is debugging and profiling SphinxQL is easier and more friendly to operator.
 
+#### Update Jan Nov 2019
+
+Further stress/load testing was performed with distributed JMeter setup to fine-tune the ManticoreSearch for fast small queries,
+as degraded performance was identified under peak loads when number of (persistent) connections spikes by 2-5x times.
+
+Jmeter setup was two machines each 4core 8gb ram, one as JMeter distributed server another as ManticoreSearch server,
+both located in same VPC on same AWS Region and subnet - so the latency is minimal.
+Tests were done with SQL API using from one to 5 listening ports, concurrently and non concurrently up to 1000 concurrent users per port.
+Test SQL query filter values were randomized on average response time is 33ms (4ms - 10000ms during JMeter tests)
+
+- workers = thread_pool definetly shows more linear clients/response-time growth than threads, so its better
+- setting watchdog=0 didnt impact performance in any way
+- searchd listening on >1 socket only degrades performance ~2% and distributing your load per socket doesnt make difference,
+there seems to be dedicated thread for networking no matter how many listening sockets you define.
+- listen_backlog is important directive that is by default very low, increasing it to your net.core.somaxconn (~4096 or so) makes sense,
+and prevents searchd from dropping connections (as per tcp listen backlog directive), reduced error rates from 2.5% to 0% during tests
+- net_workers=1 changing it to anything other than 1 degrated performance, big values >N-cpu affected performance significantly
+- net_wait_tm=-1 we changed it to -1 setting poller to 1ms interval, this reduced the response times and makes sense, performance increased
+- net_throttle_accept or net_throttle_action didnt make any difference
+
+Usefull commands for profiling Manticoresearch:
+- show plan;
+- show profile;
+
+Final JMeter 3.3 load test profile with 1000 concurrent users (connections), SQL interface, ramp-up = 0,
+ManticoreSearch 2.7.3 in Docker, c5.xlarge AWS instance (4vCPU, 8GB RAM, 10Gbps network)
+
+![MongoCursor](/images/manticoresearch273tuned.png)
+
 #### Links
 
 - [Sphinx 2.2.11-release reference manual](http://sphinxsearch.com/docs/current.html)
