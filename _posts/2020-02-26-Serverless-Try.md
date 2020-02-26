@@ -40,7 +40,7 @@ to be compatible with latest releases, we dont have time/luxury to rewrite every
 
 #### Part III - Dream
 
-![ThEdReAm](/images/serverless2019.jpg)
+![serverless2019](/images/serverless2019.jpg)
 
 Somewhere in November 2019 we finally decided on the JIRA ticked and put research ticket into sprint.
 
@@ -86,6 +86,7 @@ standard aws/java corretto images and does not require anything except docker in
 
 #### Part V - Reality (spoilers)
 
+- Kotlin/Micronaut app ended up being 23.5MB Jar file and use 230MB memory with average 8ms response time
 - Kotlin lacked alot of documentation for serverless domain
 - Should have written Kotlin tests from the beginning
 - [AWS DMS Migration](https://aws.amazon.com/blogs/database/debugging-your-aws-dms-migrations-what-to-do-when-things-go-wrong-part-3/) (RDS->Dynamodb) took us 2 weeks !!! to figure out with try/fail,
@@ -105,11 +106,15 @@ If you migrate to DynamoDB, we got some experince =)
 - Try tuning `unloadTimeout`, `ForceUnloadTimeout` but in our case that didnt help, something somewhere times-out
 - You can use `root` user for source, but for MySQL you only need read-only access with `GRANT REPLICATION CLIENT` permissions
 ```
-    REPLICATION CLIENT – This privilege is required for change data capture (CDC) tasks only. In other words, full-load-only tasks don't require this privilege.
-    REPLICATION SLAVE  – This privilege is required for change data capture (CDC) tasks only. In other words, full-load-only tasks don't require this privilege.
+    REPLICATION CLIENT – This privilege is required for change data capture (CDC) tasks only. 
+    REPLICATION SLAVE  – This privilege is required for change data capture (CDC) tasks only. 
     SUPER              – This privilege is required only in MySQL versions before 5.6.6.
 ```
-- Ever heard of `call mysql.rds_show_configuration` ? or `call mysql.rds_set_configuration('binlog retention hours', 24);` well now you did
+- Vodoo magic needed for RDS binlogs for long DMS migrations 
+```
+call mysql.rds_show_configuration;
+call mysql.rds_set_configuration('binlog retention hours', 24);
+```
 - Recommended SQL->DynamoDB settings for Task, this is mostly black magic, but there is very little documentation on it
  
 ```
@@ -130,7 +135,50 @@ ChangeProcessingTuning.StatementCacheSize: 50
 
 #### Part VI - tres meses despues
 
-TODO add charts/graphs/versions ...
+Overall API response times during migration from PHP+SQL solution to AWS/Serverless + DynamoDB
+
+![2020_Clients_SLA](/images/serverless2020/2020_Clients_SLA.png)
+
+API response 50/95/99% 
+
+![2020_Clients_SLA_P](/images/serverless2020/2020_Clients_SLA_P.png)
+
+Microservice response - timings measured on *client side* (no percentiles unfortunatelly, NewRelic)
+
+![2020_AWSLambda_MicronautResponseTimes](/images/serverless2020/2020_AWSLambda_MicronautResponseTimes.png)
+
+Microservice response - timings measured on *Lambda side* (AWS CloudWatch)
+
+![2020_AWSLambda_MicronautStats](/images/serverless2020/2020_AWSLambda_MicronautStats.png)
+
+#### Summary
+
+![2020_club](/images/serverless2020/2020_club.png)
+
+We will continue learning and trying out new technologies, we are happy to see the solution works stable and overall
+concept work. Performance was never our priority, but we always tried to use the latest/best tools we could, but seems
+like bottlenecks are not in our environment (language, framework, runtime) but rather on the PAAS side of AWS (S3)
+
+Achievements unlocked:
+
+- removed memory hungry processing out into lambda and freed more memory inside docker for more PHP workers
+- reduced the 95% and 99% response times, and removed long S3 calls into AWS Lambda where they dont 
+consume limited EC2/Docker resources (memory!)
+- deprecated legacy PHP codebase, cleaned up SQL database of unnecessary data (non relational)
+- new microservice can be improved/deployed/maintained completely separate of main codebase
+- we learned many new things on practice: 
+  - new language - Kotlin & Java
+  - new framework - Micronaut, Micronaut Test, AWS Java SDK
+  - new CI/CD framework - AWS SAM, Serverless.com
+  - new runtime - AWS Lambda
+  - new database - AWS DynamoDB
+  - zero downtime migration of production/big databases from SQL to DynamoDB
+
+#### Shout-Out
+
+Carolina A. for pressing the production deployment button during peak load times on weekday.
+
+![Caro](/images/serverless2020/2020_shotout.png)
 
 #### Update 26 Feb 2020
    * Initial release
