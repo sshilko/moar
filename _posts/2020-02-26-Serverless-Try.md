@@ -153,7 +153,7 @@ Microservice response - timings measured on *Lambda side* (AWS CloudWatch)
 
 #### Summary
 
-![2020_club](/images/serverless2020/2020_club.png)
+![2020_club](/images/serverless2020/2020_club.jpg)
 
 We will continue learning and trying out new technologies, we are happy to see the solution works stable and overall
 concept work. Performance was never our priority, but we always tried to use the latest/best tools we could, but seems
@@ -178,7 +178,7 @@ consume limited EC2/Docker resources (memory!)
 
 Carolina A. for pressing the production deployment button during peak load times on weekday.
 
-![Caro](/images/serverless2020/2020_shotout.png)
+![Caro](/images/serverless2020/2020_shotout.jpg)
 
 #### Update 26 Feb 2020
    * Initial release
