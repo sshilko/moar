@@ -21,7 +21,7 @@ title: Trying out serverless in 2020
 - [CNCF Cloud Native Interactive Landscape](https://landscape.cncf.io/format=serverless)
 - [AWS Database Migration Service got more mature](https://docs.aws.amazon.com/dms/index.html)
 - [Go](https://golang.org/) released modules support finally in 1.13
-- AOT JVM based micro-frameworks for Serverless started to gain strength, i.e. [Micronaut](micronaut.io) or [Quarkus](quarkus.io)
+- AOT JVM based micro-frameworks for Serverless started to gain strength, i.e. [Micronaut](https://micronaut.io) or [Quarkus](https://quarkus.io)
 - [Improved VPC networking for AWS Lambda functions](https://aws.amazon.com/blogs/compute/announcing-improved-vpc-networking-for-aws-lambda-functions/)
 ...
 
