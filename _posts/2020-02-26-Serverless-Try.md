@@ -23,6 +23,7 @@ title: Trying out serverless in 2020
 - [Go](https://golang.org/) released modules support finally in 1.13
 - AOT JVM based micro-frameworks for Serverless started to gain strength, i.e. [Micronaut](https://micronaut.io) or [Quarkus](https://quarkus.io)
 - [Improved VPC networking for AWS Lambda functions](https://aws.amazon.com/blogs/compute/announcing-improved-vpc-networking-for-aws-lambda-functions/)
+- [AWS Savings Plan Update: Save Up to 17% On Your Lambda](https://aws.amazon.com/blogs/aws/savings-plan-update-save-up-to-17-on-your-lambda-workloads/)
 ...
 
 We wanted to try and finally in summer 2019 we decided to try out microservices.
