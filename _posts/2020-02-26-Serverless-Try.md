@@ -60,7 +60,7 @@ High level wish list
 
 - Use AWS Lambda
 - Benchmarks of various cold-start/runtimes showed Golang/JVM good results, we selected JVM (Java8)
-- Among JVM we found out [Micronaut framework](https://guides.micronaut.io/micronaut-function-aws-lambda/guide/index.html) to be really similar with SpringBoot, plus standard AWS SDK for Java
+- Among JVM we found out [Micronaut framework](https://guides.micronaut.io/micronaut-function-aws-lambda/guide/index.html) to be really similar with SpringBoot, standard AWS SDK for Java (com.amazonaws:aws-java-sdk-s3:1.11.500)
 - We used JVM8 because AWSSDK2 was not yet stable/released.
 - We used [Serverless.com](https://serverless.com/) framework as recommended by other frond-end team that had experience with it,
 - [AWS SAM](https://aws.amazon.com/serverless/sam/) lacked features we needed (ALB setup out of the box).
@@ -157,8 +157,8 @@ consume limited EC2/Docker resources (memory!)
 - deprecated legacy PHP codebase, cleaned up SQL database of unnecessary data (non relational)
 - new microservice can be improved/deployed/maintained completely separate of main codebase
 - we learned many new things on practice: 
-  - new language - Kotlin `kotlinVersion=1.3.50` & Java (8.1)
-  - new framework `micronautVersion=1.2.9` - Micronaut, Micronaut Test, AWS Java SDK
+  - new language - Kotlin `kotlinVersion=1.3.50` & Java (1.8)
+  - new framework `micronautVersion=1.2.9` - Micronaut, Micronaut Test (io.micronaut.test:micronaut-test-kotlintest), AWS Java SDK
   - new CI/CD framework - AWS SAM, Serverless.com
   - new runtime - AWS Lambda
   - new database - AWS DynamoDB
