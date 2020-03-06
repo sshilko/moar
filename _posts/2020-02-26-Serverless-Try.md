@@ -173,6 +173,7 @@ consume limited EC2/Docker resources (memory!)
 - [Well Architected Monoliths are Okay](https://robertnorthard.com/devops-days-well-architected-monoliths-are-okay/)
 - [Don't ask if a monorepo is good for you – ask if you're good enough for a monorepo](https://yosefk.com/blog/dont-ask-if-a-monorepo-is-good-for-you-ask-if-youre-good-enough-for-a-monorepo.html)
 - [The Many Benefits of Using a Monorepo ](https://pspdfkit.com/blog/2019/benefits-of-a-monorepo/)
+- [Cold start / Warm start with AWS Lambda](https://blog.octo.com/en/cold-start-warm-start-with-aws-lambda/)
 
 #### Acknowledgments
 
