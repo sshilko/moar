@@ -157,8 +157,8 @@ consume limited EC2/Docker resources (memory!)
 - deprecated legacy PHP codebase, cleaned up SQL database of unnecessary data (non relational)
 - new microservice can be improved/deployed/maintained completely separate of main codebase
 - we learned many new things on practice: 
-  - new language - Kotlin & Java
-  - new framework - Micronaut, Micronaut Test, AWS Java SDK
+  - new language - Kotlin `kotlinVersion=1.3.50` & Java (8.1)
+  - new framework `micronautVersion=1.2.9` - Micronaut, Micronaut Test, AWS Java SDK
   - new CI/CD framework - AWS SAM, Serverless.com
   - new runtime - AWS Lambda
   - new database - AWS DynamoDB
