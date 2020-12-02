@@ -131,7 +131,7 @@ spl_autoload_register(function (string $className) use (&$classMap) {
          * some frequent packages are directly mapped there via PSR-0
          * to prevent full composer autoloaded
          */
-        return include $filePath;
+        return include_once $filePath;
     } else {
         /**
          * Only need autoloader once
@@ -213,3 +213,6 @@ register_shutdown_function(function () use (&$classMap, $classMapFile, $classMap
 
 #### Update Mar 2017
 * Additionnal checks for written files consistency
+
+#### Update Dec 2020
+* Fix for include_once in case file was included by some external loaders already
