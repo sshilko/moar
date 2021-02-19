@@ -17,19 +17,18 @@ The design of the messaging feature stayed stable and scaled from thousand of us
 using it now.
 Every year part of messaging system that was storing the opponents list required maintenance and downtime.
 
-When designing the data storage the application is using both 
-* SQL (RDS)
-* NoSQL (AWS Elasticache)
+Messaging data storage is using both 
 
-SQL for long-time storage, and Redis for fast hot-cache.
+* SQL (RDS) for long-term storage
+* NoSQL (AWS Elasticache) for hot-cache
 
 #### Issues with Redis
 
-While amount of users that use messaging constantly increases, we found some issues with using Redis
+Amount of users that use messaging constantly increases, we found issues with using Redis
 
 * Storage of Redis is memory, and only way to scale memory is upgrading instance type
-* Cost of upgrade doubles every time, and it looked like we need to upgrade every 6-9 months
-* Some data we store in redis was rarely accessed, and less than 50% of data was really "hot"
+* Cost of upgrade doubles every time, and we may have to upgrade every 6-9 months
+* % of data we store in redis was rarely accessed, only <50% of data was actually "hot"
 * We are paying for 100% of data as if it was "hot" data
 
 #### Goal
@@ -41,7 +40,7 @@ to look for alternative storage
 * Low latency reads/writes
 * Simple access patterns close to key-value database
 * Managed service, ideally on AWS
-* Lower cost TCO compared to AWS ElastiCache
+* Lower TCO compared to AWS ElastiCache
 
 There was one service that we think fits the requirements
 
@@ -65,15 +64,15 @@ into just one DynamoDB table
 * 4 total attributes only
 * 1 LSI (Local Secondary Index) for sorting by timestamp
 
-| owner-id | opponent-id | metadata | timestamp |
+| owner-id, | opponent-id, | metadata, | timestamp |
 |---|---|---|---|
 | 1,a | 2,b | ... | 1613725769  |
 
-Codebase change was relatively simple the storage to Redis was abstracted via interface.
-We implemented new storage adapter that complies with same interfaces.
+Code change was simple: storage to Redis was abstracted via interface.
+Implementing new storage adapter for Dynamo with same interface.
 
 For zero-downtime migration, we first implemented Composite adapter that was replicating
-all changes to both Redis and DynamoDB, so this way all the "active" data was replicated all the time.
+all changes to both Redis and DynamoDB.
 
 In background we launched jobs that will migrate 100% of data from Redis to DynamoDB in (non active data).
 
@@ -82,15 +81,8 @@ In background we launched jobs that will migrate 100% of data from Redis to Dyna
 Two months, 30GB and 240 million dynamodb "item count" later, 
 after all background migrations finished, we now swapped the Composite adapter for DynamoDB adapter only.
 
-New DynamoDB
-* 1 table
-* >400 rCU
-* >500 wCU  
-* 4ms Put latency
-* 7ms Query latency
-* 300 query returned item count average
-
-Old Redis 5.0
+Before
+* Redis 5.0
 * ~1..2ms latency
 * 8 CPU, 52GB RAM, ~600$/month
 * 3% CPU usage
@@ -101,14 +93,23 @@ Old Redis 5.0
 * 15000 SortedSet commands
 * db0:keys=153161846
 
+After
+* AWS DynamoDB
+* 1 table
+* ~400 rCU
+* ~500 wCU  
+* 4ms Put latency
+* 7ms Query latency
+* 300 query returned item count average
+
 Overall API response times.
 ![migration-1](/images/dynamoredis/migration-1.jpg)
 
 DynamoDB response times.
-![migration-2-dynamodb-external](/images/dynamoredis/migration-2-dynamodb-external.png)
+![migration-2-dynamodb-external](/images/dynamoredis/migration-2-dynamodb-external.jpg)
 
 Affected messaging API for message opponents list.
-![migration-3-api-opponent-list](/images/dynamoredis/migration-3-api-opponent-list.png)
+![migration-3-api-opponent-list](/images/dynamoredis/migration-3-api-opponent-list.jpg)
 
 #### Summary
 
