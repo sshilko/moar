@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Release of sshilko/backq v2 library
+title: Messaging migration from Redis to DynamoDB
 ---
 
 #### Migrating Messaging store from Redis to DynamoDB
