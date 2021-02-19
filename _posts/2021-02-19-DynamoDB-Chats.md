@@ -103,13 +103,13 @@ After
 * 300 query returned item count average
 
 Overall API response times.
-![migration-1](/images/dynamoredis/migration-1.jpg)
+![migration-1](/images/dynamoredis/migration-1.jpeg)
 
 DynamoDB response times.
-![migration-2-dynamodb-external](/images/dynamoredis/migration-2-dynamodb-external.jpg)
+![migration-2-dynamodb-external](/images/dynamoredis/migration-2-dynamodb-external.png)
 
 Affected messaging API for message opponents list.
-![migration-3-api-opponent-list](/images/dynamoredis/migration-3-api-opponent-list.jpg)
+![migration-3-api-opponent-list](/images/dynamoredis/migration-3-api-opponent-list.png)
 
 #### Summary
 
