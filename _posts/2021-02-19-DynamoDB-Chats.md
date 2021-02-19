@@ -113,10 +113,11 @@ Affected messaging API for message opponents list.
 
 #### Summary
 
-- We change our core database for one of most active/loaded service seamlessly and without downtime
+- We changed our core database for one of most active/loaded service seamlessly and without downtime
 - The latency did increase from ~33ms to ~87ms on API response, but hardly noticeable for end-users
 - We now have very scalable storage and pay-per-use model, we dont need to do capacity planning and worry about downtimes
 - We moved ~50Gb data from Redis in-memory to ~30GB DynamoDB items
+- Learned about some [limitations of DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html), i.e "DynamoDB supports your access patterns using the throughput that you provisioned as long as the traffic against a given partition does not exceed 3,000 RCUs or 1,000 WCUs.", DynamoDB is scalable but still requires planning and designing schema around your access patterns.
  
 #### Links
 
