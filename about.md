@@ -7,9 +7,9 @@ permalink: /about/
 
 I'am
 <ul>
-    <li>Senior Backend Engineer</li>
+    <li>Senior Engineer</li>
     <li>A Hardware nerd</li>
-    <li>A (in past) old-school gamer</li>
+    <li>Ex gamer</li>
 </ul>
 
 <a id="gf" href="https://github.com/sshilko/followers" title="Go to sshilko GitHub followers page" target="_blank"></a>

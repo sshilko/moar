@@ -6,11 +6,11 @@
 name: Sergei Shilko
 
 # Short bio or description (displayed in the header)
-description: Backend Engineer
+description: Senior Engineer
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 #avatar: https://avatars0.githubusercontent.com/u/1147808?v=2&s=150
-avatar: http://sshilko.com/shilko_avatar_400x400.jpg
+avatar: https://sshilko.com/shilko_avatar_400x400.jpg
 
 #
 # Flags below are optional
@@ -47,7 +47,7 @@ homeurl: "http://sshilko.com"
 # (http://yourusername.github.io/repository-name)
 # and NOT your User repository (http://yourusername.github.io)
 # then add in the baseurl here, like this: "/repository-name"
-baseurl: "http://moar.sshilko.com"
+baseurl: "https://moar.sshilko.com"
 #baseurl: "http://moar"
 
 
