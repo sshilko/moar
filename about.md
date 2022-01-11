@@ -5,13 +5,6 @@ id: about
 permalink: /about/
 ---
 
-I'am
-<ul>
-    <li>Senior Engineer</li>
-    <li>A Hardware nerd</li>
-    <li>Ex gamer</li>
-</ul>
-
 <a id="gf" href="https://github.com/sshilko/followers" title="Go to sshilko GitHub followers page" target="_blank"></a>
 <br/>
 <a id="gfr" href="https://github.com/sshilko/repositories" title="Go to sshilko GitHub repositories page" target="_blank"></a>
