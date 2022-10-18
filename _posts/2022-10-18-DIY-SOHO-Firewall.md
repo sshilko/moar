@@ -224,16 +224,35 @@ one from https://github.com/StevenBlack/hosts then update Gravity.
 
 #### Summary
 
-This setup will 
-- force all traffic from WIFI to use the PiHole DNS
-- physically block all traffic except transparent proxy
-- transparent proxy will also use PiHole DNS resolver
-- remove ADS and prevent visiting websites you filter via PiHole
+Lets review the initial goals
 
-This setup will block ALL traffic except HTTP and HTTPS,
-if you wish to lower restrictions, then simply unblock required ports at the DSL/Internet router.
+Filter
+> Ads, this is waste of focus and distraction
 
-This solution also breaks openvpn/wireguard VPN, because VPN is not able to work via Squid HTTP proxy port (not an HTTP traffic).
+Deny access to 
+> Phishing or scam websites
+
+Set Youtube & Google safe-content filters ON
+> No default content filters on websites like Youtube
+
+Give some built-in virus protection
+> Virus or malware infection spreading across LAN
+
+Allow to limit internet access by day/time
+> Unlimited unmonitored usage
+
+Block TCP/UDP traffic except HTTP(S)
+> Torrents and other illegal downloads
+
+Optimize DNS fetching and content cache with Squid
+> Performance bottlenecks by ISP
+
+
+*This setup will block ALL traffic except HTTP and HTTPS*
+
+To lower restrictions: unblock required ports at the DSL/Internet router.
+
+Solution also **breaks openvpn/wireguard VPN**, because VPN is not able to work via Squid HTTP proxy port (not an HTTP traffic).
 
 In future more control could be added via PFsense or open-source DPI applications.
 
