@@ -1,5 +1,16 @@
-# Jekyll Not Now
+# Moar
+Personal blog by Sergei Shilko
 
-**Jekyll** is a static site generator that's perfect for GitHub hosted blogs ([Jekyll Repository](https://github.com/jekyll/jekyll))
+## How to 
 
-**Jekyll Now** makes it easier to create your Jekyll blog, by eliminating a lot of the up front setup.
+- Create a new file in `_posts` folder 
+  - post template `files/yyyy-mm-dd-post.md`
+- Launch Jekyll
+  - `doker-compose up -d`
+3. Visit [http://127.0.0.1](http://127.0.0.1)
+
+### Kudos
+
+**Jekyll** is a static site generator that's perfect for GitHub hosted blogs 
+- [Jekyll github repository](https://github.com/jekyll/jekyll)
+

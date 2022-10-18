@@ -4,6 +4,7 @@
 
 # Name of your site (displayed in the header)
 name: Sergei Shilko
+title: Sergei Shilko
 
 # Short bio or description (displayed in the header)
 description: Senior Engineer
@@ -68,11 +69,6 @@ version: v1.0.0
 sass:
   sass_dir: _scss
   style: :expanded # You might prefer to minify using :compressed
-
-# Use the following plug-ins
-plugins:
-  - jemoji # Emoji please!
-  - jekyll-sitemap # Create a sitemap using the official Jekyll sitemap gem
 
 # Exclude these files from your production _site
 exclude:
