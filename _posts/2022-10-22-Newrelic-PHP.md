@@ -64,7 +64,7 @@ what is currently named "Observability"
 ### This is what NewRelic APM provides.
 
 - Sidecar container for collecting metrics with 0-performance overhead
-- PHP excension with kernel-level access to resources
+- PHP extension with kernel-level access to resources
 - Cloud console for monitoring, alerting, aggregation (i.e. Graphana, PagerDuty, Kibana) all together
 - Well documented and production tested (crash free) commercial solution
 - Logs collector
@@ -85,7 +85,7 @@ appdex ERROR = response time >2s
 
 ## NewRelic overview
 
-[High-level summary]((https://docs.newrelic.com/docs/infrastructure/infrastructure-ui-pages/infrastructure-hosts-page/)) & low-level details of your app in production.
+[High-level summary](https://docs.newrelic.com/docs/infrastructure/infrastructure-ui-pages/infrastructure-hosts-page/) & low-level details of your app in production.
 
 - Response time
 - Throughput
