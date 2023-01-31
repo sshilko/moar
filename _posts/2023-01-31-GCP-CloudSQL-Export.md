@@ -45,7 +45,7 @@ It makes sense for data intensive applications to think about long-term capacity
 | 	✅Metadata and table structure is saved | ⚠ Unable to customize MysqlDump options  |
 | 	✅Universal sql dump storage format | ⚠ Whole table(s) dumps only (no WHERE filtering) |
 | 	✅Allows to export schema only | ⚠ DDL breaks consistency: ALTER/CREAT/DROP/RENAME/TRUNCATE statements on other thread|
-| 	✅Mysqldump with --single-transaction |  |
+| 	✅Mysqldump with --single-transaction | ⚠ Slow export speed of about 10GB-gz-dumpfile/1h  |
 | 	✅Mysqldump with --hex-blob |  |
 | 	✅Mysqldump with [REPEATABLE READ](https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html) |  |
 | 	✅Does not contain CREATE DATABASE |  |
