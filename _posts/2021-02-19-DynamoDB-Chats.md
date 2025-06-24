@@ -1,9 +1,14 @@
 ---
 layout: post
 title: Messaging migration from Redis to DynamoDB
+excerpt_separator: <!--more-->
 ---
 
-#### Migrating Messaging store from Redis to DynamoDB
+Migrating hot messages cache from Redis to AWS DynamoDB
+
+<!--more-->
+
+#### Migrating Messaging store from Redis to AWS DynamoDB
 
 At [Tandem](https://www.tandem.net) as part of many user features application has, there is Messaging.
 Messaging allows standard functionality like:

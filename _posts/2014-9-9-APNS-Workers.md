@@ -1,7 +1,12 @@
 ---
 layout: post
 title: PHP Workers for sending Apple push notifications [BackQ library]
+excerpt_separator: <!--more-->
 ---
+
+Sending Apple Push Notification with ApnsPHP library
+
+<!--more-->
 
 #### Introduction to [BackQ library](https://github.com/sshilko/backq/)
 

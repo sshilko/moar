@@ -1,7 +1,12 @@
 ---
 layout: post
 title: Scaling sphinxsearch
+excerpt_separator: <!--more-->
 ---
+
+Scaling fulltext search solution sphinxsearch.com and manticoresearch.com setup in high load production
+
+<!--more-->
 
 #### Scaling sphinxsearch
 

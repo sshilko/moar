@@ -1,7 +1,12 @@
 ---
 layout: post
 title: Full Stack Developer
+excerpt_separator: <!--more-->
 ---
+
+Software engineer as fullstack developer pros and cons
+
+<!--more-->
 
 #### Developer's specialization
 

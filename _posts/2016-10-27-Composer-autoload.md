@@ -1,7 +1,12 @@
 ---
 layout: post
 title: Fast Autoloading Classes in PHP
+excerpt_separator: <!--more-->
 ---
+
+Optimized PHP composer autoloading for maximum performance
+
+<!--more-->
 
 #### Fast Autoloading Classes in PHP
 

@@ -1,10 +1,13 @@
 ---
 layout: post
 title: Newrelic APM - observability for early-stage PHP projects
+excerpt_separator: <!--more-->
 ---
 
 Overview of using [NewRelic](https://docs.newrelic.com/docs/apm/agents/php-agent/getting-started/introduction-new-relic-php/)
 in PHP projects from 1RPM to ±80000 RPM.
+
+<!--more-->
 
 ## Early-stage project issues
 

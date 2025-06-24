@@ -1,11 +1,14 @@
 ---
 layout: post
 title: GCP CloudSQL data export and long-term archiving
+excerpt_separator: <!--more-->
 ---
 
-### Introduction 
-
 Example solution for long-term reliable data extraction storage.
+
+<!--more-->
+
+### Introduction 
 
 Use-case: transaction ledger, social network profiles, analytical data, time-series datastore, messaging application.
 After some time, the data becomes stale/immutable and it makes sense to export unnecessary data out of SQL store

@@ -1,7 +1,12 @@
 ---
 layout: post
 title: About containers
+excerpt_separator: <!--more-->
 ---
+
+Docker, docker on windows, minikube/k8s and systemd service for docker container application
+
+<!--more-->
 
 #### Docker in production
 

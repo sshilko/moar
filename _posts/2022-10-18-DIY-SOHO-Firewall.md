@@ -1,7 +1,12 @@
 ---
 layout: post
 title: Filtering home internet with RaspberryPi, Squid, Pi-hole
+excerpt_separator: <!--more-->
 ---
+
+DietPi, PiHole content filtering setup on Raspberry
+
+<!--more-->
 
 ### Introduction 
 

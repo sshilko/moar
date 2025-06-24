@@ -1,7 +1,12 @@
 ---
 layout: post
 title: High-grade Encryption with Amazon AWS Elastic Load Balancers
+excerpt_separator: <!--more-->
 ---
+
+ECDHE Encryption with AWS Elastic Load Balancers
+
+<!--more-->
 
 #### AWS ELB Introduction
 

@@ -10,7 +10,11 @@ id: index
       <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
 
       <div class="entry">
-        {{ post.content | truncatewords:21}}
+        {% if post.excerpt %}
+            {{ post.excerpt }}
+        {% else %}        
+            {{ post.content | truncatewords:30}}
+        {% endif %}
       </div>
       
       <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">read moar</a>

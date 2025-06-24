@@ -1,7 +1,12 @@
 ---
 layout: post
 title: Compiling PHP
+excerpt_separator: <!--more-->
 ---
+
+Compiling PHP from sources with O3 optimizations and benchmarking against deb.sury.org under production load
+
+<!--more-->
 
 #### Compiling PHP 7.1 on Ubuntu 14.04 x86_64
 

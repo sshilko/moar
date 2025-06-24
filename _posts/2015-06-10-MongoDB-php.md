@@ -1,7 +1,12 @@
 ---
 layout: post
 title: Evaluating MongoDB as key value/document store
+excerpt_separator: <!--more-->
 ---
+
+Evaluating MongoDB versions for production use in realtime messaging solution
+
+<!--more-->
 
 #### MongoDB configuration issues
 

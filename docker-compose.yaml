@@ -1,5 +1,5 @@
 #echo '127.0.0.1 moar.sshilko.com' >> /etc/hosts
-version: "3.7"
+#version: "3.7"
 services:
     jekyll:
         image: jekyll/jekyll:3.8

@@ -1,7 +1,12 @@
 ---
 layout: post
 title: Building RabbitMQ with plugins on AWS EC2
+excerpt_separator: <!--more-->
 ---
+
+Exposing production RabbitMQ instance MQTT plugin to internet, patching security issues with erlang
+
+<!--more-->
 
 #### Realtime Messaging Broker & MQTT
 

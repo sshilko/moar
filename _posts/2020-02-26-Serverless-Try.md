@@ -1,7 +1,12 @@
 ---
 layout: post
 title: Trying out serverless in 2020
+excerpt_separator: <!--more-->
 ---
+
+Deploying JVM based Kotlin micro-framework Micronaut in AWS Lambda
+
+<!--more-->
 
 2018 and 2019 is when [Kubernetes](https://www.cncf.io/blog/2018/03/06/kubernetes-first-cncf-project-graduate/) and [Serverless](https://serverless.com/blog/) became mainstream.
 2020 is when we tried Serverless and Microservices in production.
