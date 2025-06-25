@@ -146,7 +146,11 @@ In our scenario, we are relying on Spans (not metrics) for our Services - OpenTe
 > Spans: When the error rate chart is derived from spans, all OpenTelemetry spans with kind of server or consumer and status code of ERROR are considered as an error. This means that the error rate from spans is protocol agnostic.
 
 ```
-SELECT filter(count(*), WHERE otel.status_code = 'ERROR')/count(*)  as 'Error rate for all errors' FROM Span WHERE (entity.guid = 'foo') AND ((span.kind LIKE 'server' OR span.kind LIKE 'consumer' OR kind LIKE 'server' OR kind LIKE 'consumer')) SINCE 30 minutes ago TIMESERIES
+SELECT filter(count(*), WHERE otel.status_code = 'ERROR')/count(*)  as 'Error rate for all errors' 
+  FROM Span 
+ WHERE (entity.guid = 'foo') 
+   AND ((span.kind LIKE 'server' OR span.kind LIKE 'consumer' OR kind LIKE 'server' OR kind LIKE 'consumer')) 
+ SINCE 30 minutes ago TIMESERIES
 ```
 
 > Errors from spans (errors inbox)
