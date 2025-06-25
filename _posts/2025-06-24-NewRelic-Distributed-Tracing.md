@@ -137,6 +137,23 @@ os.type: PHP_OS_FAMILY
    are considered errors.
    Transaction is only considered as an error if root span kind is `server` and `status.code=ERROR`.
    If root span does not have a status code of ERROR, transaction not counted towards error rate.
+
+[Handling error rate in OpenTelemetry and New Relic](https://newrelic.com/blog/how-to-relic/error-rate-opentelemetry-and-new-relic)
+
+> A key difference between APM and OpenTelemetry is that the OpenTelemetry http metrics spec does not have an error count metric. For the OpenTelemetry APM experience in New Relic, the error rate chart references the duration metric http.server.request.duration or rpc.server.duration and classifies instances where status code >=500 as the error rate. This means that the error rate from metrics is restricted to HTTP calls.
+
+> Errors from spans (errors inbox)
+> OpenTelemetry does not have a concept of a transaction, but it does have spans, and spans represent operations within a transaction. > New Relic relies on SpanKind for mapping trace data to our concept of a transaction. A SpanKind of server or consumer is used to identify the entry point of a process. In other words, these are spans that are either root spans or child spans of a remote process.
+> 
+> In addition to the lack of a definition of a transaction, OpenTelemetry does not include an explicit error rate metric.
+> 
+> In order to bridge the gap between New Relic and OpenTelemetry, transactions are defined by a span of kind server, with child spans making up the sub-operations of the transaction.
+> 
+> In this definition of a transaction, the transaction is only considered as an error if that root span of kind server has A status.code >of ERROR. Even if other child spans have a status code of ERROR, it only matters if the root span has a status code of ERROR. If the >root span doesn’t have a status code of ERROR, the transaction isn’t counted towards the error rate.
+
+![Error Rate](/images/nr-tracing-api/error-rate-image.jpg "Error Rate")
+
+This is list of important attributes for errors in payload
 ```
 error.class: %string%
 stack.trace: %string%
