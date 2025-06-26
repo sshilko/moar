@@ -14,7 +14,8 @@ NewRelic, Tracing API, Distributed tracing and OpenTelemetry.
 
 It is challenging to improve observability without ability to install proper PHP auto instrumentation agent.
 
-- No access to codebase runtime
+- No access to application runtime
+- No access to container runtime
 - No access to host OS
 
 #### Possible solutions
@@ -310,6 +311,15 @@ Using example payloads it is possible for NewRelic APM to **correctly** display 
 - Response time
 - Error rate
 - Distributed Tracing
+
+While concrete implementation is not provided here.
+Collector is a simple class injected with http client and serializer that accumulates collection of spans.
+Span is a simple class with getters/setters with main purpose is to track start & end time.
+
+Future implementation improvements may include
+- configuring minimum span duration threshold to be instrumented at all, hiding tiny/small non-interesting spans
+- configuring minimum total amount of spans needed before commit
+- configuring minimum total span duration needed before commit
 
 [![Summary](/images/nr-tracing-api/nr_distributed_tracing_summary_via_api.jpg)](/images/nr-tracing-api/nr_distributed_tracing_summary_via_api.jpg)
 
