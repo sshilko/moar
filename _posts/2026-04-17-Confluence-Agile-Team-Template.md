@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Confluence agile structure structure blueprint
+title: Confluence agile project blueprint
 excerpt_separator: <!--more-->
 ---
 
